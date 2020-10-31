@@ -81,12 +81,18 @@ for ii = 1:4; set(get(AX_538(1,ii),'Title'),'String',triState{ii});end
 
 figure('Renderer', 'painters', 'Position', [0 0 1024 640])
 [S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{randsample(4e4, 1e3),triState}, '.r');
-for ii = 1:4; HEcon(ii).DisplayStyle = 'stairs';end
-for ii = 1:4; HEcon(ii).EdgeColor = 'r';end
-for ii = 1:4; HEcon(ii).LineWidth = 1;end
-for ii = 1:4; set(get(AXEcon(1,ii),'Title'),'String',triState{ii});end
-for ii = 1:16; set(get(AXEcon(ii),'XLim'),get(AX(ii),'XLim'));end
+for ii = 1:4; H_Econ(ii).DisplayStyle = 'stairs';end
+for ii = 1:4; H_Econ(ii).EdgeColor = 'r';end
+for ii = 1:4; H_Econ(ii).LineWidth = 1;end
+for ii = 1:4; set(get(AX_Econ(1,ii),'Title'),'String',triState{ii});end
+for ii = 1:4; HAx_Econ(ii).XLim = HAx_538(ii).XLim;end
+for ii = 1:16; AX_Econ(ii).XLim = AX_538(ii).XLim;end
+for ii = 1:16; AX_Econ(ii).YLim = AX_538(ii).YLim;end
 
 
+
+%%
+
+[~     ,idx]=max(corr(tbl538.RI, tbl538.(setxor(stat)))
 
 
