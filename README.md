@@ -1,2 +1,3 @@
-## election2020_compare
-# model comparison between economist & 538
+## election2020
+
+model comparison between economist & 538
