@@ -31,7 +31,7 @@ tblEcon = tblEcon(:, stateNames);
 %% plot mean field
 
 
-f_meanfield = figure('Renderer', 'painters', 'Position', [0 0 1024 512]);
+f_meanfield = figure('Renderer', 'painters', 'Position', [0 0 1280 640]);
 tiledlayout(5,10,'TileSpacing', 'compact', 'Padding', 'compact');
 
 for ss = 1:length(stateNames)
@@ -61,12 +61,12 @@ saveas(f_meanfield, './figures/meanfield.png')
 
 %% plot correlation matrix
 
-f_corr = figure('Renderer', 'painters', 'Position', [0 0 960 300])
+f_corr = figure('Renderer', 'painters', 'Position', [0 0 400 500])
 colormap(batlow);
 
 tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
 
-nexttile(1);
+nexttile;
 c538 = corr(tbl538.Variables);
 imagesc(c538, [-1 1]); colorbar('Ticks', [-1,0,1]);
 title('538 state correlation')
@@ -75,7 +75,7 @@ yticks([])
 xticks([])
 
 
-nexttile(2);
+nexttile;
 cEcon = corr(tblEcon.Variables);
 imagesc(cEcon, [-1 1]);
 title('Economist state correlation')
@@ -85,7 +85,7 @@ xticks([])
 
 
 
-nexttile(3); hold on;
+nexttile([2, 2]); hold on;
 
 t538 = c538(logical(tril(ones(50),-1)));
 tEcon = cEcon(logical(tril(ones(50),-1)));
@@ -111,7 +111,7 @@ saveas(f_corr, './figures/corrplots.png')
 compareStates = {'CT', 'ME', 'MA', 'NH', 'RI', 'VT'};
 nComp = length(compareStates);
 
-f_538 = figure('Renderer', 'painters', 'Position', [0 0 600 600]);
+f_538 = figure('Renderer', 'painters', 'Position', [0 0 500 500]);
 
 [S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{datasample(1:nsims, 1e4),compareStates}, '.k');
 for ii = 1:nComp; H_538(ii).DisplayStyle = 'stairs';end
@@ -120,7 +120,7 @@ for ii = 1:nComp; H_538(ii).LineWidth = 1;end
 for ii = 1:nComp; set(get(AX_538(1,ii),'Title'),'String',compareStates{ii});end
 
 
-f_Econ = figure('Renderer', 'painters', 'Position', [0 0 600 600]);
+f_Econ = figure('Renderer', 'painters', 'Position', [0 0 500 500]);
 
 [S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{datasample(1:nsims, 1e4),compareStates}, '.r');
 for ii = 1:nComp; H_Econ(ii).DisplayStyle = 'stairs';end
