@@ -13,4 +13,4 @@ Inital model Comparision
 
 First, lets look at what each model predicts at the state level, ignoring the correlation across states.
 
-![mean field](https://github.com/harrisonritz/election2020/blob/main/figures/meanfield.png)
+![mean field](/figures/meanfield.png)
