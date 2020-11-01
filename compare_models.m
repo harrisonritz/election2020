@@ -7,7 +7,7 @@ batlow = load('batlow.txt');
 
 
 % == load 538
-raw = fread(fopen('./data/origSims_538.json'));
+raw = fread(fopen('./models/origSims_538.json'));
 str = char(raw');
 val = jsondecode(str);
 pred = 1-(1+val.maps(:,4:end)/100)/2;
@@ -16,7 +16,7 @@ tbl538 = array2table(pred, 'VariableNames', val.states);
 
 
 % == load economist
-tblEcon = readtable('./data/origSim_econ.csv');
+tblEcon = readtable('./models/origSim_econ.csv');
 
 
 % == select data from both
@@ -31,7 +31,7 @@ tblEcon = tblEcon(:, stateNames);
 %% plot mean field
 
 
-f_meanfield = figure('Renderer', 'painters', 'Position', [0 0 900 450]);
+f_meanfield = figure('Renderer', 'painters', 'Position', [0 0 1024 512]);
 tiledlayout(5,10,'TileSpacing', 'compact', 'Padding', 'compact');
 
 for ss = 1:length(stateNames)
