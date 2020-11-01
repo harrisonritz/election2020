@@ -7,7 +7,7 @@ batlow = load('batlow.txt');
 
 
 % == load 538
-raw = fread(fopen('./data/origSims_538.json'));
+raw = fread(fopen('./models/origSims_538.json'));
 str = char(raw');
 val = jsondecode(str);
 pred = 1-(1+val.maps(:,4:end)/100)/2;
@@ -16,7 +16,7 @@ tbl538 = array2table(pred, 'VariableNames', val.states);
 
 
 % == load economist
-tblEcon = readtable('./data/origSim_econ.csv');
+tblEcon = readtable('./models/origSim_econ.csv');
 
 
 % == select data from both
@@ -31,7 +31,7 @@ tblEcon = tblEcon(:, stateNames);
 %% plot mean field
 
 
-f_meanfield = figure('Renderer', 'painters', 'Position', [0 0 900 450]);
+f_meanfield = figure('Renderer', 'painters', 'Position', [0 0 1024 512]);
 tiledlayout(5,10,'TileSpacing', 'compact', 'Padding', 'compact');
 
 for ss = 1:length(stateNames)
@@ -61,24 +61,35 @@ saveas(f_meanfield, './figures/meanfield.png')
 
 %% plot correlation matrix
 
-f_corr = figure('Renderer', 'painters', 'Position', [0 0 800 400])
+f_corr = figure('Renderer', 'painters', 'Position', [0 0 600 300])
 colormap(batlow);
 
-tiledlayout(1,2,'TileSpacing', 'compact', 'Padding', 'compact');
+tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
 
 nexttile(1);
-imagesc(corr(tbl538.Variables), [-1 1]);
+c538 = corr(tbl538.Variables);
+imagesc(c538, [-1 1]);
 title('538 state correlation')
 yticks([])
 xticks([])
 
 
-
 nexttile(2);
-imagesc(corr(tblEcon.Variables), [-1 1])
-title('Econ state corr')
+cEcon = corr(tblEcon.Variables);
+imagesc(cEcon, [-1 1])
+title('Econ state correlation')
 yticks([])
 xticks([])
+
+
+
+nexttile(3);
+
+t538 = c538(logical(tril(ones(50),-1)));
+tEcon = cEcon(logical(tril(ones(50),-1)));
+
+histogram(
+
 
 
 
