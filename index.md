@@ -11,6 +11,8 @@ I'm NOT all that interested in which famous statistician ‘wins the day’, how
 Inital model Comparision
 ------------
 
-First, lets look at what each model predicts at the state level, ignoring the correlation across states.
+First, lets look at the outcomes each model predicts at the state level, ignoring the correlation across states.
+
+In all of the graphs, <p style="color:black;">538</p> will be plotted in BLACK, and  <p style="color:red;">The Economist</p> will be colored in RED.
 
 ![mean field](/figures/meanfield.png)
