@@ -111,16 +111,17 @@ saveas(f_corr, './figures/corrplots.png')
 compareStates = {'CT', 'ME', 'MA', 'NH', 'RI', 'VT'};
 nComp = length(compareStates);
 
-f_538 = figure('Renderer', 'painters', 'Position', [0 0 300 300]);
+f_538 = figure('Renderer', 'painters', 'Position', [0 0 350 350]);
 
 [S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{datasample(1:nsims, 1e4),compareStates}, '.k');
 for ii = 1:nComp; H_538(ii).DisplayStyle = 'stairs';end
 for ii = 1:nComp; H_538(ii).EdgeColor = 'k';end
 for ii = 1:nComp; H_538(ii).LineWidth = 1;end
 for ii = 1:nComp; set(get(AX_538(1,ii),'Title'),'String',compareStates{ii});end
+for ii = 1:(nComp^2); AX_538(ii).XTickLabel = [];end
+for ii = 1:(nComp^2); AX_538(ii).YTickLabel = [];end
 
-
-f_Econ = figure('Renderer', 'painters', 'Position', [0 0 300 300]);
+f_Econ = figure('Renderer', 'painters', 'Position', [0 0 350 350]);
 
 [S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{datasample(1:nsims, 1e4),compareStates}, '.r');
 for ii = 1:nComp; H_Econ(ii).DisplayStyle = 'stairs';end
@@ -129,7 +130,8 @@ for ii = 1:nComp; H_Econ(ii).LineWidth = 1;end
 for ii = 1:nComp; set(get(AX_Econ(1,ii),'Title'),'String',compareStates{ii});end
 for ii = 1:nComp; HAx_Econ(ii).XLim = HAx_538(ii).XLim;end
 for ii = 1:(nComp^2); AX_Econ(ii).XLim = AX_538(ii).XLim;end
-for ii = 1:(nComp^2); AX_Econ(ii).YLim = AX_538(ii).YLim;end
+for ii = 1:(nComp^2); AX_Econ(ii).XTickLabel = [];end
+for ii = 1:(nComp^2); AX_Econ(ii).YTickLabel = [];end
 
 
 saveas(f_538, './figures/compareMulti_538.png') 
@@ -188,7 +190,7 @@ title('model selection')
 xlabel('loglik difference')
 
 
-saveas(f_modelRec, './figures/modelRecovery_538.png') 
+saveas(f_modelRec, './figures/modelRecovery.png') 
 
 
 
