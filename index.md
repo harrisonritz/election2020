@@ -16,7 +16,7 @@ TBD
 
 
 
-Initial model Comparison
+Initial model Validation
 ------------
 
 First, let's look at the outcomes each model predicts at the state level, ignoring the correlation across states.
