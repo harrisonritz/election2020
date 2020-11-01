@@ -9,12 +9,32 @@ These assumptions make a big difference, because they shape the narrative of wha
 **On Tuesday, I'll compare the performance of these two models as the results come in**, seeing how well the models predict the democratic vote share in each state. While election night will be winner-take-all, predicting the actual vote shares allows for a finer-grained comparison of these models (e.g., they both predict the same outcomes: a Biden presidency).
 
 
-
-Inital model Comparision
+Election Comparison
 ------------
 
-First, lets look at the outcomes each model predicts at the state level, ignoring the correlation across states.
+TBD
 
-In all of the graphs, 538 will be plotted in BLACK, and  The Economist will be plotted in RED.
 
-![mean field](/figures/meanfield.png)
+
+Initial model Comparison
+------------
+
+First, let's look at the outcomes each model predicts at the state level, ignoring the correlation across states.
+
+In all of the graphs, **538** will be plotted in BLACK, and **The Economist** will be plotted in RED.
+
+
+![state mean field](/figures/meanfield.png)
+
+What's immediately clear from this figure is that The Economist is a lot more confident in their predictions -- they have a very peaked distribution around their expected vote share. In contrast, 538 has a longer-tailed distribution, making less precise predictions, but accommodating unexpected results. Despite those differences, the models are predicting very similar results, especially for who will win the night.
+
+Stronger differences between the models come from when we look at their multivariate predictions, how they expect the results in one state to depend on the others.
+
+First let’s look at how they expect the results in different states to correlate with each other.
+
+![state correlations](/figures/corrplots.png)
+
+Two things jump out at me there. First, the state correlations in 538 cover a much broader range, including negative correlations, whereas The Economist only models positive correlations between states. Second, the correlations in 538 are unimodal and skewed, whereas The Economist appears to have a bimodal distribution. I’d bet that the bimodal distributions for The Economist come from ‘republican’ vs ‘democrat’ states, but this would be something to look into further.
+
+
+
