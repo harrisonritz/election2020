@@ -52,7 +52,7 @@ Despite the differences between these models (especially at the multivariate lev
 
 The model likelihoods for were calculated using multivariate kernel density estimation on the simulated vote shares from each model. I have a little discomfort about how to choose the bandwidth and kernel given the different assumption of these models (i.e., *538*’s fat tail). For the bandwidth, I landed on [Silverman’s Rule of Thumb](https://en.wikipedia.org/wiki/Kernel_density_estimation#A_rule-of-thumb_bandwidth_estimator) with min(STD, IQR), and for the kernel I used the Epanechnikov kernel, but confirmed that things looked similar with a t-distributed kernel.
 
-Using these kernel likelihood functions, I compare the models’ likelihoods under both held-out simulations from the same model (e.g., P(*538* model ~ *538* sims), or under simulations from the alternative model P(*538* model ~ *Economist* sims). Since we have a lot of simulations, I just did one cross-validation fold (39k in-sample, 1k out-of-sample), but this is something I could spruce up with a k-fold cross-validation.
+Using these kernel likelihood functions, I compare the models’ likelihoods under both held-out simulations from the same model (e.g., *538* model ~ *538* sims), or under simulations from the alternative model (e.g., *538* model ~ *Economist* sims). Since we have a lot of simulations, I just did one cross-validation fold (39k in-sample, 1k out-of-sample), but this is something I could spruce up with a k-fold cross-validation.
 
  ![model recovery](/figures/modelRecovery.png)
 
