@@ -21,12 +21,12 @@ Initial model Comparison
 
 First, let's look at the outcomes each model predicts at the state level, ignoring the correlation across states.
 
-In all of the graphs, **538** will be plotted in BLACK, and **The Economist** will be plotted in RED.
+In all of the graphs, *538* will be plotted in BLACK, and *The Economist* will be plotted in RED.
 
 
 ![state mean field](/figures/meanfield.png)
 
-What's immediately clear from this figure is that The Economist is a lot more confident in their predictions -- they have a very peaked distribution around their expected vote share. In contrast, 538 has a longer-tailed distribution, making less precise predictions, but accommodating unexpected results. Despite those differences, the models are predicting very similar results, especially for who will win the night.
+What's immediately clear from this figure is that *The Economist* is a lot more confident in their predictions -- they have a very peaked distribution around their expected vote share. In contrast, *538* has a longer-tailed distribution, making less precise predictions, but accommodating unexpected results. Despite those differences, the models are predicting very similar results, especially for who will win the night.
 
 Stronger differences between the models come from when we look at their multivariate predictions, how they expect the results in one state to depend on the others.
 
@@ -34,14 +34,26 @@ First let’s look at how they expect the results in different states to correla
 
 ![state correlations](/figures/corrplots.png)
 
-Two things jump out at me there. First, the state correlations in 538 cover a much broader range, including negative correlations, whereas The Economist only models positive correlations between states. Second, the correlations in 538 are unimodal, whereas The Economist appears to have a bimodal distribution. I’d bet that the bimodal distributions for The Economist come from ‘republican’ vs ‘democrat’ states, but this would be something to look into further.
+Two things jump out at me there. First, the state correlations in *538* cover a much broader range, including negative correlations, whereas *The Economist* only models positive correlations between states. Second, the correlations in *538* are unimodal, whereas *The Economist* appears to have a bimodal distribution. I’d bet that the bimodal distributions for *The Economist* come from ‘republican’ vs ‘democrat’ states, but this would be something to look into further.
 
 
-Finally, we can zoom into the correlations between a few states to see how these models differ at a finer-grained level.
+We can zoom into the correlations between a few states to see how these models differ at a finer-grained level.
 
-![tristate 538](/figures/compareMulti_538.png) 
-![tristate 538](/figures/compareMulti_Econ.png)
+![NE 538](/figures/compareMulti_538.png) 
+![NE Economist](/figures/compareMulti_Econ.png)
 
-Clearly, the 538 model is a lot noisier, allowing for surprising upsets. However, it is also noticeable how much weaker some of the correlations are between these states -- notice how different Rhode Island is from much of the rest of New England in 538’s model relative to The Economist. These models seem to make very different predictions about the extent to which election outcomes are driven by local factors.
+Clearly, the *538* model is a lot noisier, allowing for surprising upsets. However, it is also noticeable how much weaker some of the correlations are between these states -- notice how different Rhode Island is from much of the rest of New England in *538*’s model relative to *The Economist*. These models seem to make very different predictions about the extent to which election outcomes are driven by local factors, reflected in how independent the noise is across states.
+
+
+Model Recovery
+--------------
+
+Despite the differences between these models (especially at the multivariate level), it’s not totally clear whether they make *different enough* predictions that we’ll be able to compare them on election day. To test our ability to discriminate between these models, I compared the model likelihood of each model given data simulated from each model (i.e., model recovery). 
+
+The model likelihoods for were calculated using multivariate kernel density estimation on the simulated vote shares from each model. I have a little discomfort about how to choose the bandwidth and kernel given the different assumption of these models (i.e., *538*’s fat tail). For the bandwidth, I landed on [Silverman’s Rule of Thumb](https://en.wikipedia.org/wiki/Kernel_density_estimation#A_rule-of-thumb_bandwidth_estimator) with either standard deviation or IQR, and for the kernel I used the Epanechnikov kernel, but confirmed that things looked similar with a t-distributed kernel.
+
+Using these kernel likelihood functions, I compare the models’ likelihoods under both held-out simulations from the same model (e.g., P(*538* model | *538* sims), or from simulations from the other model P(*538* model | *Economist* sims).
+
+ ![model recovery](/figures/modelRecovery.png)
 
 
