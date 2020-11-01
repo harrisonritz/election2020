@@ -155,6 +155,8 @@ lik_Econ_538    = mvksdensity(tblEcon{1:39000,:}, tbl538{39001:end,:}, 'bandwidt
 f_modelRec = figure('Renderer', 'painters', 'Position', [0 0 400 500]); hold on;
 tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
 
+
+
 nexttile; hold on;
 histogram(log(1+lik_538_538), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
 histogram(log(1+lik_538_Econ), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '--', 'LineWidth', 2)
@@ -188,6 +190,7 @@ yticks([])
 ylabel('density')
 title('model selection')
 xlabel('loglik difference')
+set(gca, 'TickDir', 'out', 'LineWidth', 1)
 
 
 saveas(f_modelRec, './figures/modelRecovery.png') 
