@@ -1,4 +1,4 @@
-# Election 2020: The great model face-off
+# The Great Model Face-off
 
 I’ve built this website to compare how well [538](https://projects.fivethirtyeight.com/2020-election-forecast) and [The Economist](https://projects.economist.com/us-2020-forecast/president) predict the election results. 
 
@@ -16,7 +16,7 @@ TBD on tuesday!
 
 
 
-Initial Model Validation
+Model Validation
 ------------
 
 First, let's look at the outcomes each model predicts at the state level, ignoring the correlation across states.
