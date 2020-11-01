@@ -37,12 +37,11 @@ First let’s look at how they expect the results in different states to correla
 Two things jump out at me there. First, the state correlations in 538 cover a much broader range, including negative correlations, whereas The Economist only models positive correlations between states. Second, the correlations in 538 are unimodal, whereas The Economist appears to have a bimodal distribution. I’d bet that the bimodal distributions for The Economist come from ‘republican’ vs ‘democrat’ states, but this would be something to look into further.
 
 
-Finally, we can zoom into the correlations between a few states to see how these models differ at a finer-grained level. Let's look at variance/covariance of vote share within New England.
+Finally, we can zoom into the correlations between a few states to see how these models differ at a finer-grained level.
 
-![tristate 538](/figures/compareMulti_538.png)
+![tristate 538](/figures/compareMulti_538.png) 
 ![tristate 538](/figures/compareMulti_Econ.png)
 
-
-
+Clearly, the 538 model is a lot noisier, allowing for surprising upsets. However, it is also noticeable how much weaker some of the correlations are between these states -- notice how different Rhode Island is from much of the rest of New England in 538’s model relative to The Economist. These models seem to make very different predictions about the extent to which election outcomes are driven by local factors.
 
 
