@@ -40,11 +40,11 @@ for ss = 1:length(stateNames)
     xline(.5, '--k', 'LineWidth', 1);
       
     % plot 538
-    [f,x]=ksdensity(tbl538.(stateNames{ss}));
+    [f,x]=ksdensity(tbl538.(stateNames{ss}), 'Kernel', 'epanechnikov');
     plot(x,f, '-k', 'LineWidth', 2);
     
     % plot economist
-    [f,x]=ksdensity(tblEcon.(stateNames{ss}));
+    [f,x]=ksdensity(tblEcon.(stateNames{ss}), 'Kernel', 'epanechnikov');
     plot(x,f, '-r', 'LineWidth', 2);
     
     title(stateNames{ss});
@@ -134,6 +134,62 @@ for ii = 1:(nComp^2); AX_Econ(ii).YLim = AX_538(ii).YLim;end
 
 saveas(f_538, './figures/compareMulti_538.png') 
 saveas(f_Econ, './figures/compareMulti_Econ.png') 
+
+
+
+%% compare model likelihoods
+
+
+b_538 = min(std(tbl538{1:39000,:}), iqr(tbl538{1:39000,:})/1.34).*(4/(52*nsims)).^(1/54);
+b_Econ = min(std(tblEcon{1:39000,:}), iqr(tblEcon{1:39000,:})/1.34).*(4/(52*nsims)).^(1/54);
+
+lik_538_538     = mvksdensity(tbl538{1:39000,:}, tbl538{39001:end,:}, 'bandwidth', b_538, 'Kernel', 'epanechnikov');
+lik_538_Econ    = mvksdensity(tbl538{1:39000,:}, tblEcon{39001:end,:}, 'bandwidth', b_538, 'Kernel', 'epanechnikov');
+lik_Econ_Econ   = mvksdensity(tblEcon{1:39000,:}, tblEcon{39001:end,:}, 'bandwidth', b_Econ, 'Kernel', 'epanechnikov');
+lik_Econ_538    = mvksdensity(tblEcon{1:39000,:}, tbl538{39001:end,:}, 'bandwidth', b_Econ, 'Kernel', 'epanechnikov');
+
+
+
+f_modelRec = figure('Renderer', 'painters', 'Position', [0 0 400 500]); hold on;
+tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
+
+nexttile; hold on;
+histogram(log(1+lik_538_538), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
+histogram(log(1+lik_538_Econ), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '--', 'LineWidth', 2)
+histogram(log(1+lik_Econ_Econ), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
+histogram(log(1+lik_Econ_538), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '--', 'LineWidth', 2)
+
+legend({'P(538 | 538)', 'P(538 | Economist)', 'P(Economist | Economist)', 'P(Economist | 538)'}, 'Location', 'northwest')
+xticks([])
+yticks([])
+title('model recovery')
+xlabel('model loglik')
+ylabel('density')
+set(gca, 'TickDir', 'out', 'LineWidth', 1)
+
+
+
+nexttile; hold on;
+
+clear simDiff_538 simDiff_Econ 
+for ii = 1:1000
+    simDiff_538(ii) = nanmean(datasample(log(1+lik_538_538), 1000) - datasample(log(1+lik_Econ_538), 1000));
+    simDiff_Econ(ii) = nanmean(datasample(log(1+lik_Econ_Econ), 1000) - datasample(log(1+lik_538_Econ), 1000));
+end
+
+histogram(simDiff_538, 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
+histogram(simDiff_Econ, 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
+
+xline(0, '--k')
+legend({'(correct | 538)', '(correct | Economist)'}, 'Location', 'northeast')
+yticks([])
+ylabel('density')
+title('model selection')
+xlabel('loglik difference')
+
+
+saveas(f_modelRec, './figures/modelRecovery_538.png') 
+
 
 
 
