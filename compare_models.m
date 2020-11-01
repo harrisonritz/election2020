@@ -129,7 +129,9 @@ for ii = 1:nComp; H_Econ(ii).EdgeColor = 'r';end
 for ii = 1:nComp; H_Econ(ii).LineWidth = 1;end
 for ii = 1:nComp; set(get(AX_Econ(1,ii),'Title'),'String',compareStates{ii});end
 for ii = 1:nComp; HAx_Econ(ii).XLim = HAx_538(ii).XLim;end
+for ii = 1:nComp; HAx_Econ(ii).YLim = HAx_538(ii).YLim;end
 for ii = 1:(nComp^2); AX_Econ(ii).XLim = AX_538(ii).XLim;end
+for ii = 1:(nComp^2); AX_Econ(ii).YLim = AX_538(ii).YLim;end
 for ii = 1:(nComp^2); AX_Econ(ii).XTickLabel = [];end
 for ii = 1:(nComp^2); AX_Econ(ii).YTickLabel = [];end
 
