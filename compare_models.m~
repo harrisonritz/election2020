@@ -61,38 +61,42 @@ saveas(f_meanfield, './figures/meanfield.png')
 
 %% plot correlation matrix
 
-f_corr = figure('Renderer', 'painters', 'Position', [0 0 600 300])
+f_corr = figure('Renderer', 'painters', 'Position', [0 0 960 300])
 colormap(batlow);
 
 tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
 
 nexttile(1);
 c538 = corr(tbl538.Variables);
-imagesc(c538, [-1 1]);
+imagesc(c538, [-1 1]); colorbar('Ticks', [-1,0,1]);
 title('538 state correlation')
+set(gca, 'LineWidth', 1)
 yticks([])
 xticks([])
 
 
 nexttile(2);
 cEcon = corr(tblEcon.Variables);
-imagesc(cEcon, [-1 1])
-title('Econ state correlation')
+imagesc(cEcon, [-1 1]);
+title('Economist state correlation')
+set(gca, 'LineWidth', 1)
 yticks([])
 xticks([])
 
 
 
-nexttile(3);
+nexttile(3); hold on;
 
 t538 = c538(logical(tril(ones(50),-1)));
 tEcon = cEcon(logical(tril(ones(50),-1)));
 
-histogram(
-
-
-
-
+histogram(t538, 30, 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineWidth', 2)
+histogram(tEcon, 30, 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineWidth', 2)
+yticks([])
+xlim([-1 1])
+xlabel('between-state correlation')
+title('Comparing state correlation')
+set(gca, 'TickDir', 'out', 'LineWidth', 1)
 
 
 
@@ -104,24 +108,24 @@ saveas(f_corr, './figures/corrplots.png')
 %% plot multivariate
 
 
-triState = {'NY', 'NJ', 'CT', 'PA'};
+compareStates = {'CT', 'ME', 'MA', 'NH', 'RI', 'VT'};
 
 f_538 = figure('Renderer', 'painters', 'Position', [0 0 600 600]);
 
-[S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{datasample(1:nsims, 1e4),triState}, '.k');
+[S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{datasample(1:nsims, 1e4),compareStates}, '.k');
 for ii = 1:4; H_538(ii).DisplayStyle = 'stairs';end
 for ii = 1:4; H_538(ii).EdgeColor = 'k';end
 for ii = 1:4; H_538(ii).LineWidth = 1;end
-for ii = 1:4; set(get(AX_538(1,ii),'Title'),'String',triState{ii});end
+for ii = 1:4; set(get(AX_538(1,ii),'Title'),'String',compareStates{ii});end
 
 
 f_Econ = figure('Renderer', 'painters', 'Position', [0 0 600 600]);
 
-[S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{datasample(1:nsims, 1e4),triState}, '.r');
+[S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{datasample(1:nsims, 1e4),compareStates}, '.r');
 for ii = 1:4; H_Econ(ii).DisplayStyle = 'stairs';end
 for ii = 1:4; H_Econ(ii).EdgeColor = 'r';end
 for ii = 1:4; H_Econ(ii).LineWidth = 1;end
-for ii = 1:4; set(get(AX_Econ(1,ii),'Title'),'String',triState{ii});end
+for ii = 1:4; set(get(AX_Econ(1,ii),'Title'),'String',compareStates{ii});end
 for ii = 1:4; HAx_Econ(ii).XLim = HAx_538(ii).XLim;end
 for ii = 1:16; AX_Econ(ii).XLim = AX_538(ii).XLim;end
 for ii = 1:16; AX_Econ(ii).YLim = AX_538(ii).YLim;end
