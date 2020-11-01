@@ -34,7 +34,7 @@ First let’s look at how they expect the results in different states to correla
 
 ![state correlations](/figures/corrplots.png)
 
-Two things jump out at me there. First, the state correlations in *538* cover a much broader range, including negative correlations, whereas *The Economist* only models positive correlations between states. Second, the correlations in *538* are unimodal, whereas *The Economist* appears to have a bimodal distribution. I’d bet that the bimodal distributions for *The Economist* come from ‘republican’ vs ‘democrat’ states, but this would be something to look into further. Finally, when we contrast the state correlations accross models, it becomes really obvious that the Economist has set a lower-bound on their correlation matrix.
+Two things jump out at me there. First, the state correlations in *538* cover a much broader range, including negative correlations, whereas *The Economist* only models positive correlations between states. Second, the correlations in *538* are unimodal, whereas *The Economist* appears to have a bimodal distribution. I’d bet that the bimodal distributions for *The Economist* come from ‘republican’ vs ‘democrat’ states, but this would be something to look into further. Finally, when we contrast the state correlations accross models, it becomes really obvious that *The Economist* has set a lower-bound on their correlations.
 
 
 We can zoom into the correlations between a few states to see how these models differ at a finer-grained level.
