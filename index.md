@@ -12,7 +12,7 @@ These assumptions make a big difference, because they shape the narrative of wha
 Election Comparison
 ------------
 
-TBD
+TBD on tuesday!
 
 
 
