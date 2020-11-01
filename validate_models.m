@@ -61,7 +61,7 @@ saveas(f_meanfield, './figures/meanfield.png')
 
 %% plot correlation matrix
 
-f_corr = figure('Renderer', 'painters', 'Position', [0 0 300 375])
+f_corr = figure('Renderer', 'painters', 'Position', [0 0 500 400])
 colormap(batlow);
 
 tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
@@ -85,18 +85,52 @@ xticks([])
 
 
 
-nexttile([2, 2]); hold on;
+% nexttile([2, 2]); hold on;
+% 
+% t538 = c538(logical(tril(ones(50),-1)));
+% tEcon = cEcon(logical(tril(ones(50),-1)));
+% 
+% histogram(t538, 30, 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineWidth', 2)
+% histogram(tEcon, 30, 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineWidth', 2)
+% yticks([])
+% xlim([-1 1])
+% xlabel('between-state correlation')
+% title('Comparing state correlation')
+% set(gca, 'TickDir', 'out', 'LineWidth', 1)
+
+
+
+
+nexttile; hold on;
 
 t538 = c538(logical(tril(ones(50),-1)));
 tEcon = cEcon(logical(tril(ones(50),-1)));
 
-histogram(t538, 30, 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineWidth', 2)
-histogram(tEcon, 30, 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineWidth', 2)
+histogram(t538, 30, 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineWidth', 2)
+histogram(tEcon, 30,'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineWidth', 2)
 yticks([])
 xlim([-1 1])
 xlabel('between-state correlation')
-title('Comparing state correlation')
+title('state correlation distribution')
 set(gca, 'TickDir', 'out', 'LineWidth', 1)
+
+
+nexttile; hold on;
+
+t538 = c538(logical(tril(ones(50),-1)));
+tEcon = cEcon(logical(tril(ones(50),-1)));
+
+plot(t538, tEcon, '.b', 'LineWidth', 1)
+plot([-.5 1], [-.5 1], '-b', 'LineWidth', 1)
+xlabel('538')
+ylabel('Economist')
+
+title('state correlation contrast')
+set(gca, 'TickDir', 'out', 'LineWidth', 1)
+
+
+
+
 
 
 
