@@ -1,11 +1,13 @@
 %% compare models
 
+addpath(genpath(pwd))
+batlow = load('batlow.txt');
 
 %% load data
 
 
 % == load 538
-raw = fread(fopen('./model-predictions/origSims_538.json'));
+raw = fread(fopen('./data/origSims_538.json'));
 str = char(raw');
 val = jsondecode(str);
 pred = 1-(1+val.maps(:,4:end)/100)/2;
@@ -14,20 +16,22 @@ tbl538 = array2table(pred, 'VariableNames', val.states);
 
 
 % == load economist
-tblEcon = readtable('./model-predictions/origSim_econ.csv');
+tblEcon = readtable('./data/origSim_econ.csv');
 
 
 % == select data from both
 stateNames = setxor(intersect(tblEcon.Properties.VariableNames, tbl538.Properties.VariableNames), 'DC');
+nsims = size(tbl538,1);
 
 tbl538  = tbl538(:, stateNames);
 tblEcon = tblEcon(:, stateNames);
 
 
+
 %% plot mean field
 
 
-figure('Renderer', 'painters', 'Position', [0 0 1024 640])
+f_meanfield = figure('Renderer', 'painters', 'Position', [0 0 900 450]);
 tiledlayout(5,10,'TileSpacing', 'compact', 'Padding', 'compact');
 
 for ss = 1:length(stateNames)
@@ -45,24 +49,44 @@ for ss = 1:length(stateNames)
     
     title(stateNames{ss});
     ylim([0, 20]);
+    yticks([]);
     set(gca, 'TickDir', 'out', 'LineWidth', 1);
     
 end
 
 
+saveas(f_meanfield, './figures/meanfield.png') 
+
 
 
 %% plot correlation matrix
 
-figure('Renderer', 'painters', 'Position', [0 0 800 300])
+f_corr = figure('Renderer', 'painters', 'Position', [0 0 800 400])
+colormap(batlow);
 
-nexttile;
+tiledlayout(1,2,'TileSpacing', 'compact', 'Padding', 'compact');
+
+nexttile(1);
 imagesc(corr(tbl538.Variables), [-1 1]);
-title('538 state corr')
+title('538 state correlation')
+yticks([])
+xticks([])
 
-nexttile;
+
+
+nexttile(2);
 imagesc(corr(tblEcon.Variables), [-1 1])
 title('Econ state corr')
+yticks([])
+xticks([])
+
+
+
+
+
+
+
+saveas(f_corr, './figures/corrplots.png') 
 
 
 
@@ -71,16 +95,18 @@ title('Econ state corr')
 
 triState = {'NY', 'NJ', 'CT', 'PA'};
 
-figure('Renderer', 'painters', 'Position', [0 0 1024 640])
-[S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{randsample(4e4, 1e3),triState}, '.k');
+f_538 = figure('Renderer', 'painters', 'Position', [0 0 600 600]);
+
+[S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{datasample(1:nsims, 1e4),triState}, '.k');
 for ii = 1:4; H_538(ii).DisplayStyle = 'stairs';end
 for ii = 1:4; H_538(ii).EdgeColor = 'k';end
 for ii = 1:4; H_538(ii).LineWidth = 1;end
 for ii = 1:4; set(get(AX_538(1,ii),'Title'),'String',triState{ii});end
 
 
-figure('Renderer', 'painters', 'Position', [0 0 1024 640])
-[S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{randsample(4e4, 1e3),triState}, '.r');
+f_Econ = figure('Renderer', 'painters', 'Position', [0 0 600 600]);
+
+[S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{datasample(1:nsims, 1e4),triState}, '.r');
 for ii = 1:4; H_Econ(ii).DisplayStyle = 'stairs';end
 for ii = 1:4; H_Econ(ii).EdgeColor = 'r';end
 for ii = 1:4; H_Econ(ii).LineWidth = 1;end
@@ -90,9 +116,8 @@ for ii = 1:16; AX_Econ(ii).XLim = AX_538(ii).XLim;end
 for ii = 1:16; AX_Econ(ii).YLim = AX_538(ii).YLim;end
 
 
+saveas(f_538, './figures/tristate_538.png') 
+saveas(f_Econ, './figures/tristate_Econ.png') 
 
-%%
-
-[~     ,idx]=max(corr(tbl538.RI, tbl538.(setxor(stat)))
 
 
