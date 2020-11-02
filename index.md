@@ -1,4 +1,4 @@
-# Election 2020: The great model face-off
+# The Great Model Face-off
 
 I’ve built this website to compare how well [538](https://projects.fivethirtyeight.com/2020-election-forecast) and [The Economist](https://projects.economist.com/us-2020-forecast/president) predict the election results. 
 
@@ -16,7 +16,7 @@ TBD on tuesday!
 
 
 
-Initial Model Validation
+Model Validation
 ------------
 
 First, let's look at the outcomes each model predicts at the state level, ignoring the correlation across states.
@@ -34,7 +34,7 @@ First let’s look at how they expect the results in different states to correla
 
 ![state correlations](/figures/corrplots.png)
 
-Two things jump out at me there. First, the state correlations in *538* cover a much broader range, including negative correlations, whereas *The Economist* only models positive correlations between states. Second, the correlations in *538* are unimodal, whereas *The Economist* appears to have a bimodal distribution. I’d bet that the bimodal distributions for *The Economist* come from ‘republican’ vs ‘democrat’ states, but this would be something to look into further.
+Two things jump out at me there. First, the state correlations in *538* cover a much broader range, including negative correlations, whereas *The Economist* only models positive correlations between states. Second, the correlations in *538* are unimodal, whereas *The Economist* appears to have a bimodal distribution. I’d bet that the bimodal distributions for *The Economist* come from ‘republican’ vs ‘democrat’ states, but this would be something to look into further. Finally, when we contrast the state correlations accross models, it becomes really obvious that *The Economist* has set a lower-bound on their correlations.
 
 
 We can zoom into the correlations between a few states to see how these models differ at a finer-grained level.
@@ -52,7 +52,7 @@ Despite the differences between these models (especially at the multivariate lev
 
 The model likelihoods for were calculated using multivariate kernel density estimation on the simulated vote shares from each model. I have a little discomfort about how to choose the bandwidth and kernel given the different assumption of these models (i.e., *538*’s fat tail). For the bandwidth, I landed on [Silverman’s Rule of Thumb](https://en.wikipedia.org/wiki/Kernel_density_estimation#A_rule-of-thumb_bandwidth_estimator) with min(STD, IQR), and for the kernel I used the Epanechnikov kernel, but confirmed that things looked similar with a t-distributed kernel.
 
-Using these kernel likelihood functions, I compare the models’ likelihoods under both held-out simulations from the same model (e.g., P(*538* model ~ *538* sims), or under simulations from the alternative model P(*538* model ~ *Economist* sims). Since we have a lot of simulations, I just did one cross-validation fold (39k in-sample, 1k out-of-sample), but this is something I could spruce up with a k-fold cross-validation.
+Using these kernel likelihood functions, I compare the models’ likelihoods under both held-out simulations from the same model (e.g., *538* model ~ *538* sims), or under simulations from the alternative model (e.g., *538* model ~ *Economist* sims). Since we have a lot of simulations, I just did one cross-validation fold (39k in-sample, 1k out-of-sample), but this is something I could spruce up with a k-fold cross-validation.
 
  ![model recovery](/figures/modelRecovery.png)
 
