@@ -7,7 +7,7 @@ batlow = load('batlow.txt');
 
 
 % == load 538
-raw = fread(fopen('./models/origSims_538.json'));
+raw = fread(fopen('./models/sims_538.json'));
 str = char(raw');
 val = jsondecode(str);
 pred = 1-(1+val.maps(:,4:end)/100)/2;
@@ -16,7 +16,7 @@ tbl538 = array2table(pred, 'VariableNames', val.states);
 
 
 % == load economist
-tblEcon = readtable('./models/origSim_econ.csv');
+tblEcon = readtable('./models/sims_econ.csv');
 
 
 % == select data from both
@@ -61,7 +61,7 @@ saveas(f_meanfield, './figures/meanfield.png')
 
 %% plot correlation matrix
 
-f_corr = figure('Renderer', 'painters', 'Position', [0 0 500 400])
+f_corr = figure('Renderer', 'painters', 'Position', [0 0 500 400]);
 colormap(batlow);
 
 tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
@@ -217,7 +217,7 @@ for ii = 1:1000
     simDiff_Econ(ii) = nanmean(datasample(log(1+lik_Econ_Econ), 1000) - datasample(log(1+lik_538_Econ), 1000));
 end
 
-histogram(simDiff_538, 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
+histogram(simDiff_538,  'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
 histogram(simDiff_Econ, 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
 
 xline(0, '--k')
