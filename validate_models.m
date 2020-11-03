@@ -250,8 +250,8 @@ f_modelLikComp = figure('Renderer', 'painters', 'Position', [0 0 300 300]); hold
 plot(log(lik_538_538) + log(lik_Econ_538), log(lik_538_538) - log(lik_Econ_538),  '.b'); lsline;
 yline(0, '--k')
 xticks([])
-xlabel('liklihood sum')
-ylabel('liklihood difference')
+xlabel('likelihood sum')
+ylabel('likelihood difference')
 title('when are models distinguishable?')
 set(gca, 'TickDir', 'out', 'LineWidth', 1)
 
