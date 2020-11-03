@@ -45,7 +45,17 @@ We can zoom into the correlations between a few states (New England) to see how 
 
 Clearly, the *538* model is a lot noisier, allowing for surprising upsets. However, it is also noticeable how much weaker some of the correlations are between these states -- notice how different Rhode Island is from much of the rest of New England in *538*’s model relative to *The Economist*. This is likely due to state-independent noise being added to *538*’s simulations, incorporating a different assumption about the extent to which election outcomes are driven by local factors than *The Economist*.
 
+Finally, I was curious about what is driving the across-state structure in these models. To examine this more carefully, I got a measure of the similarity between states (the euclidean distance between states' vote shares across simulations; z-scored to remove between-state differences in vote share), and then embedded the states into a low-dimensional space (using ISOMAP). I embedded the state distances for each model separately, and then aligned them (procrustes transformation).
 
+![embedding movie](/figures/embedVid.gif) 
+
+This is really complex! The obvious thing to me is how much more dispersed the *538* states are (this may be due to their state-independent noise). You can also see at the bottom that *The Economist* groups several of the southwestern states together, and at the top they group some of the New England state together. 
+
+One way we can get more insight is to look at how the embedding represents differences between states. The first thing I’ve tried is to label the states based on whether they are expected to vote Democrat or Republican:
+
+![embedding partisan](/figures/embed.png) 
+
+It would seem like partisanship plays a role in the between-state structure, though we should keep in mind that states that vote similarly are also geographically nearby as well. It does seem like partisanship plays a larger role in *538*, whereas the *Economist* appears to pick up on some other structure (perhaps it is weighting geography more strongly). 
 
 
 
