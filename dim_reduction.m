@@ -34,43 +34,66 @@ tblEcon = tblEcon(:, stateNames);
 %% plot MDS
 
 
-f_embed = figure('Renderer', 'painters', 'Position', [0 0 500 500]);
-nexttile([1,2]); hold on; grid;
-
-
-% 538 embed
-dist538 = squareform(pdist(zscore(tbl538.Variables,[],2)', 'cosine'));
-s538 = isomap(dist538, 3);
-% s538 = cmdscale(dist538, 3);
-
-
-plot3(s538(:,1), s538(:,2), s538(:,3), 'ok', 'MarkerFaceColor', 'k')
-
-text(s538(:,1), s538(:,2), s538(:,3), tbl538.Properties.VariableNames)
+l538 = log(tbl538.Variables) - log(1-tbl538.Variables);
+lEcon = log(tblEcon.Variables) - log(1-tblEcon.Variables);
 
 
 
-% Econ embed
-distEcon = squareform(pdist(zscore(tblEcon.Variables,[],2)', 'cosine'));
-[~, sEcon] = procrustes(s538, isomap(distEcon, 3));
-% [~, sEcon] = procrustes(s538, cmdscale(distEcon, 3));
+f_embed = figure('Renderer', 'painters', 'Position', [0 0 400 200]);
 
-plot3(sEcon(:,1), sEcon(:,2), sEcon(:,3), 'or', 'MarkerFaceColor', 'r')
+% nexttile([1,2]); hold on; grid;
+% 
+% 
+% % 538 embed
+% dist538 = squareform(pdist(zscore(l538)', 'euclidean'));
+% s538 = isomap(dist538, 3);
+% % s538 = cmdscale(dist538, 3);
+% 
+% 
+% plot3(s538(:,1), s538(:,2), s538(:,3), 'ok', 'MarkerFaceColor', 'k')
+% 
+% text(s538(:,1), s538(:,2), s538(:,3), tbl538.Properties.VariableNames)
+% 
+% 
+% 
+% % Econ embed
+% distEcon = squareform(pdist(zscore(lEcon)', 'euclidean'));
+% [~, sEcon] = procrustes(s538, isomap(distEcon, 3));
+% % [~, sEcon] = procrustes(s538, cmdscale(distEcon, 3));
+% 
+% plot3(sEcon(:,1), sEcon(:,2), sEcon(:,3), 'or', 'MarkerFaceColor', 'r')
+% 
+% text(sEcon(:,1), sEcon(:,2), sEcon(:,3), tblEcon.Properties.VariableNames)
+% 
+% 
+% % plot connections
+% for ii = 1:size(s538,1)
+%     plot3([s538(ii,1);sEcon(ii,1)], [s538(ii,2);sEcon(ii,2)], [s538(ii,3);sEcon(ii,3)], '--k');
+% end
+% 
+% 
+% title('Correlation embedding')
+% set(gca, 'LineWidth', 1)
+% yticks([])
+% xticks([])
+% zticks([])
 
-text(sEcon(:,1), sEcon(:,2), sEcon(:,3), tblEcon.Properties.VariableNames)
 
 
-% plot connections
-for ii = 1:size(s538,1)
-    plot3([s538(ii,1);sEcon(ii,1)], [s538(ii,2);sEcon(ii,2)], [s538(ii,3);sEcon(ii,3)], '--k');
-end
+
+nexttile; hold on; grid;
+
+plot3(s538(dem,1), s538(dem,2), s538(dem,3), 'om', 'MarkerFaceColor', 'm')
+plot3(s538(~dem,1), s538(~dem,2), s538(~dem,3), 'ob', 'MarkerFaceColor', 'b')
 
 
-title('Correlation embedding')
+
+title('Partisanship (538)')
 set(gca, 'LineWidth', 1)
 yticks([])
 xticks([])
 zticks([])
+
 
 
 
@@ -83,7 +106,7 @@ plot3(sEcon(dem,1), sEcon(dem,2), sEcon(dem,3), 'om', 'MarkerFaceColor', 'm')
 plot3(sEcon(~dem,1), sEcon(~dem,2), sEcon(~dem,3), 'ob', 'MarkerFaceColor', 'b')
 
 
-title('Partisanship')
+title('Partisanship (Economist)')
 set(gca, 'LineWidth', 1)
 yticks([])
 xticks([])
@@ -91,19 +114,22 @@ zticks([])
 
 
 
-nexttile; hold on; grid;
-
-dem = std(zscore(tblEcon.Variables,[],2))>median(std(zscore(tblEcon.Variables,[],2)));
-
-plot3(sEcon(dem,1), sEcon(dem,2), sEcon(dem,3), 'om', 'MarkerFaceColor', 'm')
-plot3(sEcon(~dem,1), sEcon(~dem,2), sEcon(~dem,3), 'ob', 'MarkerFaceColor', 'b')
 
 
-title('Uncertainty')
-set(gca, 'LineWidth', 1)
-yticks([])
-xticks([])
-zticks([])
+% 
+% nexttile; hold on; grid;
+% 
+% dem = std((tblEcon.Variables))>median(std((tblEcon.Variables)));
+% 
+% plot3(sEcon(dem,1), sEcon(dem,2), sEcon(dem,3), 'om', 'MarkerFaceColor', 'm')
+% plot3(sEcon(~dem,1), sEcon(~dem,2), sEcon(~dem,3), 'ob', 'MarkerFaceColor', 'b')
+% 
+% 
+% title('Uncertainty')
+% set(gca, 'LineWidth', 1)
+% yticks([])
+% xticks([])
+% zticks([])
 
 
 saveas(f_embed, './figures/embed.png') 
@@ -117,12 +143,17 @@ saveas(f_embed, './figures/embed.png')
 
 
 
-figure('Renderer', 'painters', 'Position', [0 0 500 500]);
+l538 = log(tbl538.Variables) - log(1-tbl538.Variables);
+lEcon = log(tblEcon.Variables) - log(1-tblEcon.Variables);
+
+
+
+f_embed = figure('Renderer', 'painters', 'Position', [0 0 500 500]);
 nexttile([1,2]); hold on; grid;
 
 
 % 538 embed
-dist538 = squareform(pdist(zscore(tbl538.Variables,[],2)', 'cosine'));
+dist538 = squareform(pdist(zscore(l538)', 'euclidean'));
 s538 = isomap(dist538, 3);
 % s538 = cmdscale(dist538, 3);
 
@@ -134,7 +165,7 @@ text(s538(:,1), s538(:,2), s538(:,3), tbl538.Properties.VariableNames)
 
 
 % Econ embed
-distEcon = squareform(pdist(zscore(tblEcon.Variables,[],2)', 'cosine'));
+distEcon = squareform(pdist(zscore(lEcon)', 'euclidean'));
 [~, sEcon] = procrustes(s538, isomap(distEcon, 3));
 % [~, sEcon] = procrustes(s538, cmdscale(distEcon, 3));
 
@@ -158,4 +189,70 @@ zticks([])
 
 % make movie
 OptionZ.FrameRate=15;OptionZ.Duration=8;OptionZ.Periodic=true;
-CaptureFigVid([-20,10;-110,10;-190,80;-290,10;-380,10], './figures/embedVid',OptionZ)
+CaptureFigVid([1:360; ones(1,360)*10]', './figures/embedVid',OptionZ)
+
+
+
+
+
+
+%% partisan
+
+
+
+l538 = log(tbl538.Variables) - log(1-tbl538.Variables);
+lEcon = log(tblEcon.Variables) - log(1-tblEcon.Variables);
+
+
+
+f_embed = figure('Renderer', 'painters', 'Position', [0 0 500 500]);
+nexttile([1,2]); hold on; grid;
+
+
+% 538 embed
+dist538 = squareform(pdist(zscore(l538)', 'euclidean'));
+s538 = isomap(dist538, 3);
+% s538 = cmdscale(dist538, 3);
+
+
+% plot3(s538(:,1), s538(:,2), s538(:,3), 'ok', 'MarkerFaceColor', 'k')
+
+text(s538(:,1), s538(:,2), s538(:,3), tbl538.Properties.VariableNames)
+
+
+
+% Econ embed
+distEcon = squareform(pdist(zscore(lEcon)', 'euclidean'));
+[~, sEcon] = procrustes(s538, isomap(distEcon, 3));
+% [~, sEcon] = procrustes(s538, cmdscale(distEcon, 3));
+
+% plot3(sEcon(:,1), sEcon(:,2), sEcon(:,3), 'or', 'MarkerFaceColor', 'r')
+
+
+
+% plot connections
+% for ii = 1:size(s538,1)
+%     plot3([s538(ii,1);sEcon(ii,1)], [s538(ii,2);sEcon(ii,2)], [s538(ii,3);sEcon(ii,3)], '--k');
+% end
+
+
+title('Correlation embedding')
+set(gca, 'LineWidth', 1)
+yticks([])
+xticks([])
+zticks([])
+
+
+dem = mean(tblEcon.Variables)>.5;
+
+text(s538(:,1), s538(:,2), s538(:,3), tbl538.Properties.VariableNames)
+
+plot3(s538(dem,1), s538(dem,2), s538(dem,3), 'om', 'LineWidth', 2)
+plot3(s538(~dem,1), s538(~dem,2), s538(~dem,3), 'ob', 'LineWidth', 2)
+% plot3(sEcon(dem,1), sEcon(dem,2), sEcon(dem,3), 'om', 'LineWidth', 2)
+% plot3(sEcon(~dem,1), sEcon(~dem,2), sEcon(~dem,3), 'ob', 'LineWidth', 2)
+
+
+% make movie
+OptionZ.FrameRate=15;OptionZ.Duration=8;OptionZ.Periodic=true;
+CaptureFigVid([1:360; ones(1,360)*10]', './figures/embedVid',OptionZ)
