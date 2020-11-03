@@ -86,22 +86,7 @@ xticks([])
 
 
 
-% nexttile([2, 2]); hold on;
-% 
-% t538 = c538(logical(tril(ones(50),-1)));
-% tEcon = cEcon(logical(tril(ones(50),-1)));
-% 
-% histogram(t538, 30, 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineWidth', 2)
-% histogram(tEcon, 30, 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineWidth', 2)
-% yticks([])
-% xlim([-1 1])
-% xlabel('between-state correlation')
-% title('Comparing state correlation')
-% set(gca, 'TickDir', 'out', 'LineWidth', 1)
-
-
-
-
+% plot corr distribtuion
 nexttile; hold on;
 
 t538 = c538(logical(tril(ones(50),-1)));
@@ -116,6 +101,7 @@ title('state correlation distribution')
 set(gca, 'TickDir', 'out', 'LineWidth', 1)
 
 
+% compare corr distribtuion
 nexttile; hold on;
 
 t538 = c538(logical(tril(ones(50),-1)));
@@ -132,15 +118,14 @@ set(gca, 'TickDir', 'out', 'LineWidth', 1)
 
 
 
-
-
-
-
 saveas(f_corr, './figures/corrplots.png') 
 
 
 
-%% plot multivariate
+
+
+
+%% plot multivariate New England
 
 
 compareStates = {'CT', 'ME', 'MA', 'NH', 'RI', 'VT'};
