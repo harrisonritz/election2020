@@ -13,11 +13,12 @@ val = jsondecode(str);
 pred = 1-(1+val.maps(:,4:end)/100)/2;
 
 tbl538 = array2table(pred, 'VariableNames', val.states);
+fprintf('\n538 loaded\n')
 
 
 % == load economist
 tblEcon = readtable('./models/sims_econ.csv');
-
+fprintf('Econ loaded\n')
 
 % == select data from both
 stateNames = setxor(intersect(tblEcon.Properties.VariableNames, tbl538.Properties.VariableNames), 'DC');
@@ -147,7 +148,7 @@ nComp = length(compareStates);
 
 f_538 = figure('Renderer', 'painters', 'Position', [0 0 350 350]);
 
-[S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{datasample(1:nsims, 1e4),compareStates}, '.k');
+[S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{:,compareStates}, '.k');
 for ii = 1:nComp; H_538(ii).DisplayStyle = 'stairs';end
 for ii = 1:nComp; H_538(ii).EdgeColor = 'k';end
 for ii = 1:nComp; H_538(ii).LineWidth = 1;end
@@ -157,7 +158,7 @@ for ii = 1:(nComp^2); AX_538(ii).YTickLabel = [];end
 
 f_Econ = figure('Renderer', 'painters', 'Position', [0 0 350 350]);
 
-[S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{datasample(1:nsims, 1e4),compareStates}, '.r');
+[S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{:,compareStates}, '.r');
 for ii = 1:nComp; H_Econ(ii).DisplayStyle = 'stairs';end
 for ii = 1:nComp; H_Econ(ii).EdgeColor = 'r';end
 for ii = 1:nComp; H_Econ(ii).LineWidth = 1;end
@@ -177,27 +178,37 @@ saveas(f_Econ, './figures/compareMulti_Econ.png')
 
 %% compare model likelihoods
 
-
-b_538 = min(std(tbl538{1:39000,:}), iqr(tbl538{1:39000,:})/1.34).*(4/(52*nsims)).^(1/54);
-b_Econ = min(std(tblEcon{1:39000,:}), iqr(tblEcon{1:39000,:})/1.34).*(4/(52*nsims)).^(1/54);
-
-lik_538_538     = mvksdensity(tbl538{1:39000,:}, tbl538{39001:end,:}, 'bandwidth', b_538, 'Kernel', 'epanechnikov');
-lik_538_Econ    = mvksdensity(tbl538{1:39000,:}, tblEcon{39001:end,:}, 'bandwidth', b_538, 'Kernel', 'epanechnikov');
-lik_Econ_Econ   = mvksdensity(tblEcon{1:39000,:}, tblEcon{39001:end,:}, 'bandwidth', b_Econ, 'Kernel', 'epanechnikov');
-lik_Econ_538    = mvksdensity(tblEcon{1:39000,:}, tbl538{39001:end,:}, 'bandwidth', b_Econ, 'Kernel', 'epanechnikov');
+% popWt = readmatrix('./models/pop_weights.csv');
 
 
+d_538   = log(tbl538.Variables) - log(1-tbl538.Variables);
+d_Econ  = log(tblEcon.Variables) - log(1-tblEcon.Variables);
 
+
+b_538 = min(std(d_538(1:36000,:)), iqr(d_538(1:36000,:))/1.34).*(4/(52*nsims)).^(1/54);
+b_Econ = min(std(d_Econ(1:36000,:)), iqr(d_Econ(1:36000,:))/1.34).*(4/(52*nsims)).^(1/54);
+
+lik_538_538     = mvksdensity(d_538(1:36000,:), d_538(36001:end,:), 'bandwidth', b_538, 'Kernel', 'epanechnikov');
+lik_538_Econ    = mvksdensity(d_538(1:36000,:), d_Econ(36001:end,:), 'bandwidth', b_538, 'Kernel', 'epanechnikov');
+lik_Econ_Econ   = mvksdensity(d_Econ(1:36000,:), d_Econ(36001:end,:), 'bandwidth', b_Econ, 'Kernel', 'epanechnikov');
+lik_Econ_538    = mvksdensity(d_Econ(1:36000,:), d_538(36001:end,:), 'bandwidth', b_Econ, 'Kernel', 'epanechnikov');
+
+lik_538_538(lik_538_538<eps) = eps;
+lik_538_Econ(lik_538_Econ<eps) = eps;
+lik_Econ_Econ(lik_Econ_Econ<eps) = eps;
+lik_Econ_538(lik_Econ_538<eps) = eps;
+
+
+% Make figure
 f_modelRec = figure('Renderer', 'painters', 'Position', [0 0 400 500]); hold on;
 tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
 
 
-
 nexttile; hold on;
-histogram(log(1+lik_538_538), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
-histogram(log(1+lik_538_Econ), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '--', 'LineWidth', 2)
-histogram(log(1+lik_Econ_Econ), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
-histogram(log(1+lik_Econ_538), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '--', 'LineWidth', 2)
+histogram(log(lik_538_538), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
+histogram(log(lik_538_Econ), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '--', 'LineWidth', 2)
+histogram(log(lik_Econ_Econ), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
+histogram(log(lik_Econ_538), 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '--', 'LineWidth', 2)
 
 legend({'P(538 | 538)', 'P(538 | Economist)', 'P(Economist | Economist)', 'P(Economist | 538)'}, 'Location', 'northwest')
 xticks([])
@@ -208,20 +219,20 @@ ylabel('density')
 set(gca, 'TickDir', 'out', 'LineWidth', 1)
 
 
-
+% === compare fits
 nexttile; hold on;
+simDiff_538 = log(lik_538_538) - log(lik_Econ_538);
+simDiff_Econ = log(lik_Econ_Econ) - log(lik_538_Econ);
 
-clear simDiff_538 simDiff_Econ 
-for ii = 1:1000
-    simDiff_538(ii) = nanmean(datasample(log(1+lik_538_538), 1000) - datasample(log(1+lik_Econ_538), 1000));
-    simDiff_Econ(ii) = nanmean(datasample(log(1+lik_Econ_Econ), 1000) - datasample(log(1+lik_538_Econ), 1000));
-end
+prob_simDiff_538 = mean(simDiff_538 > 0)
+simDiff_Econ = mean(simDiff_Econ > 0)
 
-histogram(simDiff_538,  'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
-histogram(simDiff_Econ, 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
+
+histogram(simDiff_538, 'Normalization', 'pdf',  'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
+histogram(simDiff_Econ, 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
 
 xline(0, '--k')
-legend({'(correct | 538)', '(correct | Economist)'}, 'Location', 'northeast')
+legend({'(correct | 538)', '(correct | Economist)'}, 'Location', 'northwest')
 yticks([])
 ylabel('density')
 title('model selection')
@@ -232,5 +243,19 @@ set(gca, 'TickDir', 'out', 'LineWidth', 1)
 saveas(f_modelRec, './figures/modelRecovery.png') 
 
 
+
+% when is it not discriminable
+f_modelLikComp = figure('Renderer', 'painters', 'Position', [0 0 300 300]); hold on;
+
+plot(log(lik_538_538) + log(lik_Econ_538), log(lik_538_538) - log(lik_Econ_538),  '.b'); lsline;
+yline(0, '--k')
+xticks([])
+xlabel('liklihood sum')
+ylabel('liklihood difference')
+title('when are models distinguishable?')
+set(gca, 'TickDir', 'out', 'LineWidth', 1)
+
+
+saveas(f_modelLikComp, './figures/modelLikSum.png') 
 
 
