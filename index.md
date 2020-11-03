@@ -55,6 +55,9 @@ The model likelihoods for were calculated using multivariate kernel density esti
 
 Using these kernel likelihood functions, I compare the models’ likelihoods under both held-out simulations from the same model (e.g., *538* model ~ *538* sims), or under simulations from the alternative model (e.g., *538* model ~ *Economist* sims). Since we have a lot of simulations, I just did one cross-validation fold (36k in-sample, 4k out-of-sample), but this is something I could spruce up with a k-fold cross-validation.
 
+
+**see edit below**
+
  ![model recovery](/figures/modelRecovery.png)
 
 The top panel is a little complicated. Solid lines indicate that the model matched the data-generating process, and we can see that both models do a pretty good job, with the *Economist* have a higher likelihood under its own data (not surprising, given how peaked its predictions are). 
