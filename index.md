@@ -1,4 +1,4 @@
-# The Great Model Face-off
+# The Great Election Model Face-off
 
 I’ve built this website to compare how well [538](https://projects.fivethirtyeight.com/2020-election-forecast) and [The Economist](https://projects.economist.com/us-2020-forecast/president) predict the election results. 
 
