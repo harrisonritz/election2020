@@ -210,7 +210,7 @@ simDiff_538 = log(lik_538_538) - log(lik_Econ_538);
 simDiff_Econ = log(lik_Econ_Econ) - log(lik_538_Econ);
 
 prob_simDiff_538 = mean(simDiff_538 > 0)
-simDiff_Econ = mean(simDiff_Econ > 0)
+prob_simDiff_Econ = mean(simDiff_Econ > 0)
 
 
 histogram(simDiff_538, 'Normalization', 'pdf',  'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
@@ -223,6 +223,60 @@ ylabel('density')
 title('model selection')
 xlabel('loglik difference')
 set(gca, 'TickDir', 'out', 'LineWidth', 1)
+
+
+
+
+% % === compare fits
+% nexttile; hold on;
+% simDiff_538 = log(lik_538_538) - log(lik_Econ_538);
+% simDiff_Econ = log(lik_Econ_Econ) - log(lik_538_Econ);
+% 
+% prob_simDiff_538 = mean(simDiff_538 > 0)
+% prob_simDiff_Econ = mean(simDiff_Econ > 0)
+% 
+% 
+% histogram(simDiff_538, 'Normalization', 'pdf',  'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
+% % histogram(simDiff_Econ, 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
+% 
+% xline(0, '--k')
+% yticks([])
+% ylabel('density')
+% title('(correct | 538)')
+% xlabel('loglik difference')
+% set(gca, 'TickDir', 'out', 'LineWidth', 1)
+% 
+% 
+% 
+% 
+% nexttile; hold on;
+% simDiff_538 = log(lik_538_538) - log(lik_Econ_538);
+% simDiff_Econ = log(lik_Econ_Econ) - log(lik_538_Econ);
+% 
+% prob_simDiff_538 = mean(simDiff_538 > 0)
+% prob_simDiff_Econ = mean(simDiff_Econ > 0)
+% 
+% 
+% % histogram(simDiff_538, 'Normalization', 'pdf',  'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineStyle', '-', 'LineWidth', 2)
+% histogram(simDiff_Econ, 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineStyle', '-', 'LineWidth', 2)
+% 
+% xline(0, '--k')
+% yticks([])
+% ylabel('density')
+% title('(correct | Economist)')
+% xlabel('loglik difference')
+% set(gca, 'TickDir', 'out', 'LineWidth', 1)
+
+
+
+
+
+
+
+
+
+
+
 
 
 saveas(f_modelRec, './figures/modelRecovery.png') 
