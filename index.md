@@ -46,6 +46,9 @@ We can zoom into the correlations between a few states (New England) to see how 
 Clearly, the *538* model is a lot noisier, allowing for surprising upsets. However, it is also noticeable how much weaker some of the correlations are between these states -- notice how different Rhode Island is from much of the rest of New England in *538*’s model relative to *The Economist*. This is likely due to state-independent noise being added to *538*’s simulations, incorporating a different assumption about the extent to which election outcomes are driven by local factors than *The Economist*.
 
 
+
+
+
 Model Recovery
 --------------
 
@@ -56,8 +59,6 @@ The model likelihoods for were calculated using multivariate kernel density esti
 Using these kernel likelihood functions, I compare the models’ likelihoods under both held-out simulations from the same model (e.g., *538* model ~ *538* sims), or under simulations from the alternative model (e.g., *538* model ~ *Economist* sims). Since we have a lot of simulations, I just did one cross-validation fold (36k in-sample, 4k out-of-sample), but this is something I could spruce up with a k-fold cross-validation.
 
 
-**see edit below**
-
  ![model recovery](/figures/modelRecovery.png)
 
 The top panel is a little complicated. Solid lines indicate that the model matched the data-generating process, and we can see that both models do a pretty good job, with the *Economist* have a higher likelihood under its own data (not surprising, given how peaked its predictions are). 
@@ -65,13 +66,6 @@ The top panel is a little complicated. Solid lines indicate that the model match
 In the dashed lines, we can see the models’ likelihood under the *wrong* data-generating process, and this is where things get a little more interesting. Whereas the *538* model does pretty similarly whatever data it uses, we can see that the *Economist* model does quite poorly when data are generated from the fat-tailed *538* simulations (see: red dashed line). This is the downside of peaked predictions -- they’ll do great if they match the data-generating process, but will really suffer if things are noisier than they expect.
 
 For our purposes, the bottom panel gives a better picture of whether we’ll be able to distinguish between these models. Here, I bootstrap sampled the model likelihoods, comparing the correct vs incorrect models (i.e., P(538 ~ 538) - P(Economist ~ 538)). 
-
-**Edit**
-
-I was originally pretty bullish about my ability to distinguish between these models, but I went back for a second look. Originally I was getting the average likelihood difference in batches of simulations (eg taking the average difference over 1000 randomly-paired simulations), but that doesn’t really match what will happen on election day (there will just be one outcome), and there actually are natural pairs (the likelihood of *538* and *Economist* models for the same simulation). So I re-ran this analysis plotting the difference between models for each simulation, and found that there that the model discriminability was much more subtle. 
-
- ![model recovery](/figures/modelRecovery_new.png)
-
 
 If the data are generated from the *Economist* model, we’ll still be able to pick the right model 99% of the time. However, if the data are generated from the *538* model, then we’ll only be able to pick the right model ~62% of the time, and will often mistakenly prefer the *Economist*. Why is this?
 
@@ -82,12 +76,8 @@ My guess was that the model will be discriminable when there’s some weirdness,
 
 This appears to be the right intuition -- the *538* model fits better for unlikely outcomes, but the *Economist* fits as well or better when the data come from the center of the *538* distribution. Hopefully we get lucky, and the election well-behaved tomorrow even when it could have come from the tails, but that will mean that it will be difficult to tell these models apart!
 
-To sum up, we if the election goes more or less according to the models, the *Economist* model will fit better, but if ‘going well’ means that we’ve dodged a bullet, then we ought to give the *538* model more credit. As many commentators have said before, this kind of counterfactual is exactly when predicting a signle isolated outcome like an election is so difficult. 
+To sum up, we if the election goes more or less according to the models, the *Economist* model will fit better, but if ‘going well’ means that we’ve dodged a bullet, then we ought to give the *538* model more credit. As many commentators have said before, this kind of counterfactual is exactly when predicting a single isolated outcome like an election is so difficult. 
 
-
-~~What we can see is that the correct model for the data fits strictly better than the wrong model for the data. If the data is generated from a process that look more like the *Economist*, then the two models won't have dramatically different likelihoods (though likelihood ratios greater than 15 are pretty darn good). In contrast, if the data are generated from the *538* model, we’ll see a huge difference between these models.~~
-
-~~This ability to select the correct model (i.e., pick the model that generated the data) gives us confidence that these models make different-enough predictions for us to compare them on election night. So let’s see what happens!~~
 
 
 
