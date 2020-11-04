@@ -46,11 +46,11 @@ b_Econ = min(std(d_Econ), iqr(d_Econ)/1.34).*(4/(52*nsims)).^(1/54);
 r = readmatrix('./data/live_results.csv', 'Range', 'B1:ZZ54');
 
 clear curTime
-for cc = 1:size(r,2)
+for cc = 1:sum(any(isfinite(r)))
     curTime(cc) = datetime([2020 r(1,cc) r(2,cc) r(3,cc) r(4,cc) 00]);
 end
 
-r = r(5:54,:);
+r = r(5:54,any(isfinite(r)));
 
 % univariate model
 clear lik_538 lik_Econ
@@ -127,11 +127,11 @@ saveas(f_ModelCompare, './figures/modelComparison_1.png')
 r = readmatrix('./data/live_results.csv', 'Range', 'B1:ZZ54');
 
 clear curTime
-for cc = 1:size(r,2)
+for cc = 1:sum(any(isfinite(r)))
     curTime(cc) = datetime([2020 r(1,cc) r(2,cc) r(3,cc) r(4,cc) 00]);
 end
 
-r = r(5:54,:);
+r = r(5:54,any(isfinite(r)));
 
 
 f_predMeanfield = figure('Renderer', 'painters', 'Position', [0 0 500, 1000]);
@@ -167,4 +167,51 @@ end
 
 
 saveas(f_predMeanfield, './figures/pred_meanfield.png') 
+
+
+
+
+
+%% estimate bias
+
+
+% load results
+r = readmatrix('./data/live_results.csv', 'Range', 'B1:ZZ54');
+
+clear curTime
+for cc = 1:sum(any(isfinite(r)))
+    curTime(cc) = datetime([2020 r(1,cc) r(2,cc) r(3,cc) r(4,cc) 00]);
+end
+
+r = r(5:54,any(isfinite(r)));
+
+
+
+f_predError = figure('Renderer', 'painters', 'Position', [0 0 400, 400]);
+tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
+
+
+nexttile; hold on;
+
+histogram((r(:,end) - mean(tbl538.Variables)')*100,  'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineWidth', 2)
+histogram((r(:,end) - mean(tblEcon.Variables)')*100,'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineWidth', 2)
+xline(0, '--k', 'LineWidth', 1);
+
+
+text(-.5, .225, 'Trump', 'FontSize', 12, 'HorizontalAlignment', 'right')
+text(.5, .225, 'Biden', 'FontSize', 12, 'HorizontalAlignment', 'left')
+
+
+
+set(gca, 'TickDir', 'out', 'LineWidth', 1);
+title('state prediction error', 'FontSize', 15)
+
+xlabel('prediction error (%)', 'FontSize', 12)
+ylabel('density', 'FontSize', 12);
+yticks([])
+
+legend({'538', 'Economist'}, 'Location', 'northwest')
+
+
+saveas(f_predError, './figures/predError.png') 
 
