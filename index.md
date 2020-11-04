@@ -9,10 +9,17 @@ These assumptions make a big difference, because they shape the narrative of wha
 **On Tuesday, I'll compare the performance of these two models as the results come in**, seeing how well the models predict the democratic vote share in each state. While election night will be winner-take-all, predicting the actual vote shares allows for a finer-grained comparison of these models (e.g., they both predict the same outcomes: a Biden presidency).
 
 
-Election Comparison
+Real-Time Model Comparison
 ------------
 
-TBD on tuesday!
+
+
+![state mean field](/figures/modelComparison.png)
+
+
+I'm comparing the performance of *538* and *The Economist* in two ways: (1) just averages the model likelihoods across reported states and (2) weighting the likelihoods based on the relative populations in each state, to give more credit to the model that does 'better where it counts'.
+
+This figure will be updated periodically as new results comes in.
 
 
 
