@@ -24,8 +24,8 @@ fprintf('Econ loaded\n')
 stateNames = setxor(intersect(tblEcon.Properties.VariableNames, tbl538.Properties.VariableNames), 'DC');
 nsims = size(tbl538,1);
 
-tbl538  = tbl538(:, stateNames);
-tblEcon = tblEcon(:, stateNames);
+tbl538  = tbl538(1:4e4, stateNames);
+tblEcon = tblEcon(1:4e4, stateNames);
 
 
 
