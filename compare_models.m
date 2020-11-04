@@ -90,7 +90,7 @@ nexttile;hold on;
 
 p1=plot(curTime, tot_lik_538 - tot_lik_Econ, '-ok', 'LineWidth', 1, 'MarkerFaceColor', 'k', 'MarkerSize', 8);
 p2=plot(curTime, tot_wt_lik_538 - tot_wt_lik_Econ, '-ob', 'LineWidth', 1, 'MarkerFaceColor', 'b', 'MarkerSize', 8);
-p3=plot(curTime(mv_sel), tot_mv_likDif(mv_sel), '-og', 'LineWidth', 1, 'MarkerFaceColor', 'g', 'MarkerSize', 8);
+p3=plot(curTime(mv_sel), tot_mv_likDif(mv_sel), '-or', 'LineWidth', 1, 'MarkerFaceColor', 'r', 'MarkerSize', 8);
 
 yline(0, '--k', 'LineWidth', 2);
 
