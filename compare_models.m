@@ -151,7 +151,7 @@ legend([p1,p2,p3],{'un-weighted univariate', 'pop-weighted univariate', 'multiva
 
 
 
-saveas(f_ModelCompare, './figures/modelComparison_1.png') 
+saveas(f_ModelCompare, './figures/modelComparison_2.png') 
 
 
 
