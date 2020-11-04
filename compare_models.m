@@ -70,7 +70,7 @@ tot_wt_lik_Econ = sum(log(eps + lik_Econ) .* isfinite(r) .* repPopWt./sum(repPop
 
 
 % plot
-f_ModelCompare = figure('Renderer', 'painters', 'Position', [0 0 700 500]); 
+f_ModelCompare = figure('Renderer', 'painters', 'Position', [0 0 800 600]); 
 tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
 
 
@@ -134,7 +134,7 @@ end
 r = r(3:52,:);
 
 
-f_predMeanfield = figure('Renderer', 'painters', 'Position', [0 0 480, 960]);
+f_predMeanfield = figure('Renderer', 'painters', 'Position', [0 0 500, 1000]);
 tiledlayout(10,5,'TileSpacing', 'compact', 'Padding', 'compact');
 
 for ss = 1:length(stateNames)
