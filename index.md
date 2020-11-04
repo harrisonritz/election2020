@@ -24,7 +24,9 @@ As of the morning of Nov 4, it appears that both models have systematically unde
 ![model comparison](/figures/modelComparison_1.png)
 
 
-I'm comparing the performance of *538* and *The Economist* in two ways: (1) averaging the model likelihoods across reported states and (2) weighting the likelihoods based on the relative populations in each state, to give more credit to the model that does 'better where it counts'.
+I'm comparing the performance of *538* and *The Economist* in three ways: (1) averaging the model likelihoods across reported states and (2) weighting the likelihoods based on the relative populations in each state (to give more credit to the model that does 'better where it counts'), and (3) once all states have reported, under a multivariate likelihood. The liklihoods are generated using kernel density estimation.
+
+**Edit** I had a coding error last night -- look like the models are a lot closer than I was previous reporting.
 
 
 Below we can see how the incoming results (blue line) compare to each models' predictions.
