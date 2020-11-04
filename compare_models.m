@@ -152,11 +152,16 @@ for ss = 1:length(stateNames)
     plot(x,f, '-r', 'LineWidth', 2);
     
     % plot results
-      if r(ss,end)>0
-       xline(r(ss,end), '-b', 'LineWidth', 3);
+    if r(ss,end)>0
+        xline(r(ss,end), '-b', 'LineWidth', 3);
     end
     
     title(stateNames{ss});
+    
+    if ss == 48
+        xlabel(char(curTime(end)), 'FontSize', 12);        
+    end
+    
     ylim([0, 20]);
     yticks([]);
     set(gca, 'TickDir', 'out', 'LineWidth', 1);
@@ -204,7 +209,7 @@ text(.5, .225, 'Biden', 'FontSize', 12, 'HorizontalAlignment', 'left')
 
 
 set(gca, 'TickDir', 'out', 'LineWidth', 1);
-title('state prediction error', 'FontSize', 15)
+title(['state prediction error | ' char(curTime(end))], 'FontSize', 15)
 
 xlabel('prediction error (%)', 'FontSize', 12)
 ylabel('density', 'FontSize', 12);
