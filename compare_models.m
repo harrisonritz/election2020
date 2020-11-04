@@ -43,14 +43,14 @@ b_Econ = min(std(d_Econ), iqr(d_Econ)/1.34).*(4/(52*nsims)).^(1/54);
 %% compare models
 
 % load results
-r = readmatrix('./data/live_results.csv', 'Range', 'B1:ZZ52');
+r = readmatrix('./data/live_results.csv', 'Range', 'B1:ZZ54');
 
 clear curTime
 for cc = 1:size(r,2)
-    curTime(cc) = datetime([2020 11 3 r(1,cc) r(2,cc) 00]);
+    curTime(cc) = datetime([2020 r(1,cc) r(2,cc) r(3,cc) r(4,cc) 00]);
 end
 
-r = r(3:52,:);
+r = r(5:54,:);
 
 % univariate model
 clear lik_538 lik_Econ
@@ -124,14 +124,14 @@ saveas(f_ModelCompare, './figures/modelComparison_1.png')
 
 
 % load results
-r = readmatrix('./data/live_results.csv', 'Range', 'B1:ZZ52');
+r = readmatrix('./data/live_results.csv', 'Range', 'B1:ZZ54');
 
 clear curTime
 for cc = 1:size(r,2)
-    curTime(cc) = datetime([2020 11 3 r(1,cc) r(2,cc) 00]);
+    curTime(cc) = datetime([2020 r(1,cc) r(2,cc) r(3,cc) r(4,cc) 00]);
 end
 
-r = r(3:52,:);
+r = r(5:54,:);
 
 
 f_predMeanfield = figure('Renderer', 'painters', 'Position', [0 0 500, 1000]);
