@@ -13,6 +13,13 @@ Real-Time Model Comparison
 ------------
 
 
+![prediction error](/figures/predError.png)
+
+This is the simplest way we can compare the performance: just look to see which model’s point estimate is closest to the current results. While this is an intuitive way to view the data, it doesn't take into account the uncertainty in each model, which is their biggest source of difference.
+
+As of the morning of Nov 4, it appears that both models have systematically underestimated Trump’s performance, but this is likely in part due to sampling error (i.e., many commentators are saying that later mail-in votes could skew more strongly for Biden). 
+
+
 
 ![model comparison](/figures/modelComparison_1.png)
 
@@ -106,6 +113,8 @@ My guess was that the model will be discriminable when there’s some weirdness,
 This appears to be the right intuition -- the *538* model fits better for unlikely outcomes, but the *Economist* fits as well or better when the data come from the center of the *538* distribution. Hopefully we get lucky, and the election well-behaved tomorrow even when it could have come from the tails, but that will mean that it will be difficult to tell these models apart!
 
 To sum up, we if the election goes more or less according to the models, the *Economist* model will fit better, but if ‘going well’ means that we’ve dodged a bullet, then we ought to give the *538* model more credit. As many commentators have said before, this kind of counterfactual is exactly when predicting a single isolated outcome like an election is so difficult. 
+
+
 
 
 
