@@ -9,7 +9,7 @@ These assumptions make a big difference, because they shape the narrative of wha
 **On Tuesday, I'll compare the performance of these two models as the results come in**, seeing how well the models predict the democratic vote share in each state. While election night will be winner-take-all, predicting the actual vote shares allows for a finer-grained comparison of these models (e.g., they both predict the same outcomes: a Biden presidency).
 
 
-Election Comparison
+Real-Time Model Comparison
 ------------
 
 
