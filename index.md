@@ -22,6 +22,9 @@ I'm comparing the performance of *538* and *The Economist* in two ways: (1) aver
 This figure will be updated periodically as new results comes in.
 
 
+![predict mean field](/figures/pred_meanfield.png)
+
+
 
 Model Validation
 ------------
