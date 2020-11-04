@@ -14,7 +14,7 @@ Real-Time Model Comparison
 
 
 
-![model comparison](/figures/modelComparison.png)
+![model comparison](/figures/modelComparison_1.png)
 
 
 I'm comparing the performance of *538* and *The Economist* in two ways: (1) averaging the model likelihoods across reported states and (2) weighting the likelihoods based on the relative populations in each state, to give more credit to the model that does 'better where it counts'.
