@@ -209,9 +209,9 @@ text(.5, .225, 'Biden', 'FontSize', 12, 'HorizontalAlignment', 'left')
 
 
 set(gca, 'TickDir', 'out', 'LineWidth', 1);
-title(['state prediction error | ' char(curTime(end))], 'FontSize', 15)
+title('state prediction error', 'FontSize', 15)
 
-xlabel('prediction error (%)', 'FontSize', 12)
+xlabel(['prediction error (%)  ||  ' char(curTime(end))], 'FontSize', 12)
 ylabel('density', 'FontSize', 12);
 yticks([])
 
