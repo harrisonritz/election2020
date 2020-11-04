@@ -74,10 +74,11 @@ tot_wt_lik_Econ = sum(log(eps + lik_Econ) .* isfinite(r) .* repPopWt./sum(repPop
 
 
 % multivariate model
-mvlik_538 = mvksdensity(d_538, d_r', 'bandwidth', 2*mean([mb_538(ss); mb_Econ(ss)],1), 'Kernel', 'epanechnikov');
-mvlik_Econ = mvksdensity(d_Econ, d_r', 'bandwidth', 2*mean([mb_538(ss); mb_Econ(ss)],1), 'Kernel', 'epanechnikov');
+mvlik_538 = mvksdensity(d_538, d_r', 'bandwidth', 2*mean([mb_538; mb_Econ],1), 'Kernel', 'epanechnikov');
+mvlik_Econ = mvksdensity(d_Econ, d_r', 'bandwidth', 2*mean([mb_538; mb_Econ],1), 'Kernel', 'epanechnikov');
 
 tot_mv_likDif = log(eps+mvlik_538) - log(eps+mvlik_Econ);
+mv_sel = all(isfinite(r));
 
 
 % plot
@@ -88,55 +89,14 @@ tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
 nexttile;hold on;
 
 p1=plot(curTime, tot_lik_538 - tot_lik_Econ, '-ok', 'LineWidth', 1, 'MarkerFaceColor', 'k', 'MarkerSize', 8);
+p2=plot(curTime, tot_wt_lik_538 - tot_wt_lik_Econ, '-ob', 'LineWidth', 1, 'MarkerFaceColor', 'b', 'MarkerSize', 8);
+p3=plot(curTime(mv_sel), tot_mv_likDif(mv_sel), '-og', 'LineWidth', 1, 'MarkerFaceColor', 'g', 'MarkerSize', 8);
+
 yline(0, '--k', 'LineWidth', 2);
 
-text(datetime([2020 11 3 19 05 00]), 20, '538 better', 'FontSize', 12)
-text(datetime([2020 11 3 19 05 00]), -5, 'Economist better', 'FontSize', 12)
-ylim([min(-25, f_ModelCompare.Children.Children.YLim(1)), max(25, f_ModelCompare.Children.Children.YLim(2))]);
-xlim([datetime([2020 11 3 19 00 00]), max(datetime([2020 11 4 00 00 00]), max(curTime))])
-
-% legend({'', 'population-weighted'}, 'Location', 'northeast','FontSize', 10)
-
-title('un-weighted model comparison', 'FontSize', 15)
-xlabel('Time', 'FontSize', 12)
-ylabel('log-likelihood difference', 'FontSize', 12)
-set(gca, 'TickDir', 'out', 'LineWidth', 1)
-
-
-
-
-% nexttile;hold on;
-
-p2=plot(curTime, tot_wt_lik_538 - tot_wt_lik_Econ, '-ob', 'LineWidth', 1, 'MarkerFaceColor', 'b', 'MarkerSize', 8);
-% yline(0, '--k', 'LineWidth', 2);
-
-
-% text(datetime([2020 11 3 19 05 00]), 20, '538 better', 'FontSize', 12)
-% text(datetime([2020 11 3 19 05 00]), -20, 'Economist better', 'FontSize', 12)
-ylim([min(-25, f_ModelCompare.Children.Children(1).YLim(1)), max(25, f_ModelCompare.Children.Children(1).YLim(2))]);
-xlim([datetime([2020 11 3 19 00 00]), max(datetime([2020 11 4 00 00 00]), max(curTime))])
-
-% legend({'', 'population-weighted'}, 'Location', 'northeast','FontSize', 10)
-
-title('population-weighted model comparison', 'FontSize', 15)
-xlabel('Time', 'FontSize', 12)
-ylabel('log-likelihood difference', 'FontSize', 12)
-set(gca, 'TickDir', 'out', 'LineWidth', 1)
-
-
-
-
-% plot mv
-mv_sel = all(isfinite(r));
-% nexttile;hold on;
-
-p3=plot(curTime(mv_sel), tot_mv_likDif(mv_sel), '-og', 'LineWidth', 1, 'MarkerFaceColor', 'g', 'MarkerSize', 8);
-% yline(0, '--k', 'LineWidth', 2);
-
-
-% text(datetime([2020 11 3 19 05 00]), 20, '538 better', 'FontSize', 12)
-% text(datetime([2020 11 3 19 05 00]), -20, 'Economist better', 'FontSize', 12)
-ylim([min(-25, f_ModelCompare.Children.Children(1).YLim(1)), max(25, f_ModelCompare.Children.Children(1).YLim(2))]);
+text(datetime([2020 11 3 19 05 00]), 17, '538 better', 'FontSize', 12)
+text(datetime([2020 11 3 19 05 00]), -2, 'Economist better', 'FontSize', 12)
+ylim([min(-5, f_ModelCompare.Children.Children.YLim(1)), max(20, f_ModelCompare.Children.Children.YLim(2))]);
 xlim([datetime([2020 11 3 19 00 00]), max(datetime([2020 11 4 00 00 00]), max(curTime))])
 
 % legend({'', 'population-weighted'}, 'Location', 'northeast','FontSize', 10)
@@ -146,7 +106,48 @@ xlabel('Time', 'FontSize', 12)
 ylabel('log-likelihood difference', 'FontSize', 12)
 set(gca, 'TickDir', 'out', 'LineWidth', 1)
 
+
 legend([p1,p2,p3],{'un-weighted univariate', 'pop-weighted univariate', 'multivariate'}, 'Location', 'northeast', 'FontSize', 12)
+
+
+% nexttile;hold on;
+
+% yline(0, '--k', 'LineWidth', 2);
+
+% 
+% % text(datetime([2020 11 3 19 05 00]), 20, '538 better', 'FontSize', 12)
+% % text(datetime([2020 11 3 19 05 00]), -20, 'Economist better', 'FontSize', 12)
+% ylim([min(-25, f_ModelCompare.Children.Children(1).YLim(1)), max(25, f_ModelCompare.Children.Children(1).YLim(2))]);
+% xlim([datetime([2020 11 3 19 00 00]), max(datetime([2020 11 4 00 00 00]), max(curTime))])
+% 
+% % legend({'', 'population-weighted'}, 'Location', 'northeast','FontSize', 10)
+% 
+% title('population-weighted model comparison', 'FontSize', 15)
+% xlabel('Time', 'FontSize', 12)
+% ylabel('log-likelihood difference', 'FontSize', 12)
+% set(gca, 'TickDir', 'out', 'LineWidth', 1)
+% 
+% 
+% 
+% 
+% % plot mv
+% % nexttile;hold on;
+% 
+% % yline(0, '--k', 'LineWidth', 2);
+% 
+% 
+% % text(datetime([2020 11 3 19 05 00]), 20, '538 better', 'FontSize', 12)
+% % text(datetime([2020 11 3 19 05 00]), -20, 'Economist better', 'FontSize', 12)
+% ylim([min(-25, f_ModelCompare.Children.Children(1).YLim(1)), max(25, f_ModelCompare.Children.Children(1).YLim(2))]);
+% xlim([datetime([2020 11 3 19 00 00]), max(datetime([2020 11 4 00 00 00]), max(curTime))])
+% 
+% % legend({'', 'population-weighted'}, 'Location', 'northeast','FontSize', 10)
+% 
+% title('model comparison', 'FontSize', 15)
+% xlabel('Time', 'FontSize', 12)
+% ylabel('log-likelihood difference', 'FontSize', 12)
+% set(gca, 'TickDir', 'out', 'LineWidth', 1)
+
 
 
 
