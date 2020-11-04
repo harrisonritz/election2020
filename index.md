@@ -20,11 +20,12 @@ Real-Time Model Comparison
 I'm comparing the performance of *538* and *The Economist* in two ways: (1) averaging the model likelihoods across reported states and (2) weighting the likelihoods based on the relative populations in each state, to give more credit to the model that does 'better where it counts'.
 
 
+Below we can see how the incoming results (blue line) compare to each models' predictions.
+
+In all of the graphs, *538* will be plotted in **BLACK**, and *The Economist* will be plotted in **RED**.
+
+
 ![predict mean field](/figures/pred_meanfield.png)
-
-Here we can see how the incoming results (blue line) compare to each models' predictions.
-
-
 
 
 These figures will be updated periodically as new results comes in.
