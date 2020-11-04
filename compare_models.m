@@ -118,3 +118,53 @@ set(gca, 'TickDir', 'out', 'LineWidth', 1)
 saveas(f_ModelCompare, './figures/modelComparison_1.png') 
 
 
+
+
+%% plot mean field
+
+
+% load results
+r = readmatrix('./data/live_results.csv', 'Range', 'B1:ZZ52');
+
+clear curTime
+for cc = 1:size(r,2)
+    curTime(cc) = datetime([2020 11 3 r(1,cc) r(2,cc) 00]);
+end
+
+r = r(3:52,:);
+
+
+f_predMeanfield = figure('Renderer', 'painters', 'Position', [0 0 480, 960]);
+tiledlayout(10,5,'TileSpacing', 'compact', 'Padding', 'compact');
+
+for ss = 1:length(stateNames)
+    
+    
+    nexttile; hold on;
+    xline(.5, '--k', 'LineWidth', 1);
+      
+    % plot 538
+    [f,x]=ksdensity(tbl538.(stateNames{ss}), 'Kernel', 'epanechnikov');
+    plot(x,f, '-k', 'LineWidth', 2);
+    
+    % plot economist
+    [f,x]=ksdensity(tblEcon.(stateNames{ss}), 'Kernel', 'epanechnikov');
+    plot(x,f, '-r', 'LineWidth', 2);
+    
+    % plot results
+      if r(ss,end)>0
+       xline(r(ss,end), '-b', 'LineWidth', 3);
+    end
+    
+    title(stateNames{ss});
+    ylim([0, 20]);
+    yticks([]);
+    set(gca, 'TickDir', 'out', 'LineWidth', 1);
+    
+    
+    
+end
+
+
+saveas(f_predMeanfield, './figures/pred_meanfield.png') 
+
