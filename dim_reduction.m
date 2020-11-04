@@ -41,43 +41,18 @@ lEcon = log(tblEcon.Variables) - log(1-tblEcon.Variables);
 
 f_embed = figure('Renderer', 'painters', 'Position', [0 0 400 200]);
 
-% nexttile([1,2]); hold on; grid;
-% 
-% 
-% % 538 embed
-% dist538 = squareform(pdist(zscore(l538)', 'euclidean'));
-% s538 = isomap(dist538, 3);
-% % s538 = cmdscale(dist538, 3);
-% 
-% 
-% plot3(s538(:,1), s538(:,2), s538(:,3), 'ok', 'MarkerFaceColor', 'k')
-% 
-% text(s538(:,1), s538(:,2), s538(:,3), tbl538.Properties.VariableNames)
-% 
-% 
-% 
-% % Econ embed
-% distEcon = squareform(pdist(zscore(lEcon)', 'euclidean'));
-% [~, sEcon] = procrustes(s538, isomap(distEcon, 3));
-% % [~, sEcon] = procrustes(s538, cmdscale(distEcon, 3));
-% 
-% plot3(sEcon(:,1), sEcon(:,2), sEcon(:,3), 'or', 'MarkerFaceColor', 'r')
-% 
-% text(sEcon(:,1), sEcon(:,2), sEcon(:,3), tblEcon.Properties.VariableNames)
-% 
-% 
-% % plot connections
-% for ii = 1:size(s538,1)
-%     plot3([s538(ii,1);sEcon(ii,1)], [s538(ii,2);sEcon(ii,2)], [s538(ii,3);sEcon(ii,3)], '--k');
-% end
-% 
-% 
-% title('Correlation embedding')
-% set(gca, 'LineWidth', 1)
-% yticks([])
-% xticks([])
-% zticks([])
 
+
+% 538 embed
+dist538 = squareform(pdist(zscore(l538)', 'euclidean'));
+s538 = isomap(dist538, 3);
+% s538 = cmdscale(dist538, 3);
+
+
+% Econ embed
+distEcon = squareform(pdist(zscore(lEcon)', 'euclidean'));
+[~, sEcon] = procrustes(s538, isomap(distEcon, 3));
+% [~, sEcon] = procrustes(s538, cmdscale(distEcon, 3));
 
 
 
@@ -153,7 +128,7 @@ nexttile([1,2]); hold on; grid;
 
 
 % 538 embed
-dist538 = squareform(pdist(zscore(l538)', 'euclidean'));
+dist538 = squareform(pdist(zscore(l538)', 'cosine'));
 s538 = isomap(dist538, 3);
 % s538 = cmdscale(dist538, 3);
 
@@ -165,7 +140,7 @@ text(s538(:,1), s538(:,2), s538(:,3), tbl538.Properties.VariableNames)
 
 
 % Econ embed
-distEcon = squareform(pdist(zscore(lEcon)', 'euclidean'));
+distEcon = squareform(pdist(zscore(lEcon)', 'cosine'));
 [~, sEcon] = procrustes(s538, isomap(distEcon, 3));
 % [~, sEcon] = procrustes(s538, cmdscale(distEcon, 3));
 
@@ -210,7 +185,7 @@ nexttile([1,2]); hold on; grid;
 
 
 % 538 embed
-dist538 = squareform(pdist(zscore(l538)', 'euclidean'));
+dist538 = squareform(pdist(zscore(l538)', 'cosine'));
 s538 = isomap(dist538, 3);
 % s538 = cmdscale(dist538, 3);
 
@@ -222,7 +197,7 @@ text(s538(:,1), s538(:,2), s538(:,3), tbl538.Properties.VariableNames)
 
 
 % Econ embed
-distEcon = squareform(pdist(zscore(lEcon)', 'euclidean'));
+distEcon = squareform(pdist(zscore(lEcon)', 'cosine'));
 [~, sEcon] = procrustes(s538, isomap(distEcon, 3));
 % [~, sEcon] = procrustes(s538, cmdscale(distEcon, 3));
 
