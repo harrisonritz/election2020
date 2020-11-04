@@ -61,10 +61,10 @@ end
 
 repPopWt = repmat(popWt, [1, size(r,2)]);
 
-tot_lik_538 = sum(log(eps + lik_538) .* isfinite(r));
+tot_lik_538 = sum(log(eps + lik_538) .* isfinite(r))./sum(isfinite(r));
 tot_wt_lik_538 = sum(log(eps + lik_538) .* isfinite(r) .* repPopWt./sum(repPopWt .* isfinite(r)));
 
-tot_lik_Econ = sum(log(eps + lik_Econ) .* isfinite(r));
+tot_lik_Econ = sum(log(eps + lik_Econ) .* isfinite(r))./sum(isfinite(r));
 tot_wt_lik_Econ = sum(log(eps + lik_Econ) .* isfinite(r) .* repPopWt./sum(repPopWt .* isfinite(r)));
 
 
@@ -79,8 +79,8 @@ nexttile;hold on;
 plot(curTime, tot_lik_538 - tot_lik_Econ, '-ok', 'LineWidth', 1, 'MarkerFaceColor', 'k', 'MarkerSize', 8);
 yline(0, '--k', 'LineWidth', 2);
 
-text(datetime([2020 11 3 19 05 00]), 10, '538 better', 'FontSize', 12)
-text(datetime([2020 11 3 19 05 00]), -10, 'Economist better', 'FontSize', 12)
+text(datetime([2020 11 3 19 05 00]), 5, '538 better', 'FontSize', 12)
+text(datetime([2020 11 3 19 05 00]), -5, 'Economist better', 'FontSize', 12)
 ylim([min(-25, f_ModelCompare.Children.Children.YLim(1)), max(25, f_ModelCompare.Children.Children.YLim(2))]);
 xlim([datetime([2020 11 3 19 00 00]), max(datetime([2020 11 4 00 00 00]), max(curTime))])
 
