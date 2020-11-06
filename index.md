@@ -37,6 +37,11 @@ In all of the graphs, *538* will be plotted in **BLACK**, and *The Economist* wi
 ![predict mean field](/figures/pred_meanfield.png)
 
 
+![predict multivaraite](/figures/MVcompare_Atl.png)
+
+![predict multivaraite](/figures/MVcompare_SW.png)
+
+
 These figures will be updated periodically as new results comes in.
 
 
