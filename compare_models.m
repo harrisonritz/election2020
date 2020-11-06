@@ -257,3 +257,90 @@ legend({'538', 'Economist'}, 'Location', 'northwest')
 
 saveas(f_predError, './figures/predError.png') 
 
+
+
+
+
+%% plot multivariate Results
+clear mvList
+
+mvList{1,1} = 'SW';
+mvList{1,2} = {'CA', 'NV', 'UT', 'AZ'};
+
+mvList{2,1} = 'Atl';
+mvList{2,2} = {'PA', 'OH', 'MI', 'WI', 'MN'};
+
+for ll = 1:size(mvList,1)
+    
+    compareStates = mvList{ll,2};    
+    nComp = length(compareStates);
+    
+    f_compMVplot = figure('Renderer', 'painters', 'Position', [0 0 650 300]);
+    tiledlayout(1,2,'TileSpacing', 'compact', 'Padding', 'normal');
+    
+    nexttile; hold on;
+    
+    [S_538,AX_538,BigAx_538,H_538,HAx_538] = plotmatrix(tbl538{:,compareStates}, '.k');
+    for ii = 1:nComp; H_538(ii).DisplayStyle = 'stairs';end
+    for ii = 1:nComp; H_538(ii).EdgeColor = 'k';end
+    for ii = 1:nComp; H_538(ii).LineWidth = 1;end
+    for ii = 1:nComp; set(get(AX_538(1,ii),'Title'),'String',compareStates{ii});end
+    for ii = 1:(nComp^2); AX_538(ii).XTickLabel = [];end
+    for ii = 1:(nComp^2); AX_538(ii).YTickLabel = [];end
+    
+    
+    stateIdx = @(name) ismember(tbl538.Properties.VariableNames, name);
+    
+    for ii = 1:nComp
+        
+        for jj = 1:nComp
+            
+            if ii == jj;
+                hold(AX_538(ii,jj), 'on');
+                xline(AX_538(ii,jj), r(stateIdx(compareStates{jj}), end), '-b', 'LineWidth', 2);
+            end
+            
+            hold(AX_538(ii,jj), 'on');
+            plot(AX_538(ii,jj), r(stateIdx(compareStates{jj}), end), r(stateIdx(compareStates{ii}), end), 'ob', 'MarkerFaceColor', 'c', 'MarkerSize', 6);
+            
+        end
+    end
+    
+    
+    % f_Econ = figure('Renderer', 'painters', 'Position', [0 0 350 350]);
+    
+    nexttile;
+    
+    [S_Econ,AX_Econ,BigAx_Econ,H_Econ,HAx_Econ] = plotmatrix(tblEcon{:,compareStates}, '.r');
+    for ii = 1:nComp; H_Econ(ii).DisplayStyle = 'stairs';end
+    for ii = 1:nComp; H_Econ(ii).EdgeColor = 'r';end
+    for ii = 1:nComp; H_Econ(ii).LineWidth = 1;end
+    for ii = 1:nComp; set(get(AX_Econ(1,ii),'Title'),'String',compareStates{ii});end
+    for ii = 1:nComp; HAx_Econ(ii).XLim = HAx_538(ii).XLim;end
+    for ii = 1:nComp; HAx_Econ(ii).YLim = HAx_538(ii).YLim;end
+    for ii = 1:(nComp^2); AX_Econ(ii).XLim = AX_538(ii).XLim;end
+    for ii = 1:(nComp^2); AX_Econ(ii).YLim = AX_538(ii).YLim;end
+    for ii = 1:(nComp^2); AX_Econ(ii).XTickLabel = [];end
+    for ii = 1:(nComp^2); AX_Econ(ii).YTickLabel = [];end
+    
+    
+    for ii = 1:nComp
+        
+        for jj = 1:nComp
+            
+            if ii == jj; continue; end
+            hold(AX_Econ(ii,jj), 'on');
+            plot(AX_Econ(ii,jj), r(stateIdx(compareStates{jj}), end), r(stateIdx(compareStates{ii}), end), 'ob', 'MarkerFaceColor', 'c', 'MarkerSize', 6);
+            
+        end
+    end
+    
+    
+    
+    
+    saveas(f_compMVplot, sprintf('./figures/MVcompare_%s.png', mvList{ll,1}))
+    
+end
+
+
+
