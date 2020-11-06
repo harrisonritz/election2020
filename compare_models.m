@@ -235,13 +235,13 @@ tiledlayout('flow','TileSpacing', 'compact', 'Padding', 'compact');
 
 nexttile; hold on;
 
-histogram((r(:,end) - mean(tbl538.Variables)')*100,  'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineWidth', 2)
-histogram((r(:,end) - mean(tblEcon.Variables)')*100,'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineWidth', 2)
+histogram((r(:,end) - mean(tbl538.Variables)')*100,  -14:4,  'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'k', 'LineWidth', 2)
+histogram((r(:,end) - mean(tblEcon.Variables)')*100, -14:4, 'Normalization', 'pdf', 'DisplayStyle', 'stairs', 'EdgeColor', 'r', 'LineWidth', 2)
 xline(0, '--k', 'LineWidth', 1);
 
 
-text(-.5, .225, 'Trump', 'FontSize', 12, 'HorizontalAlignment', 'right')
-text(.5, .225, 'Biden', 'FontSize', 12, 'HorizontalAlignment', 'left')
+text(-.5, .275, 'Trump', 'FontSize', 12, 'HorizontalAlignment', 'right')
+text(.5, .275, 'Biden', 'FontSize', 12, 'HorizontalAlignment', 'left')
 
 
 
